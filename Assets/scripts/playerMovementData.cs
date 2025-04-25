@@ -32,9 +32,8 @@ public class playerMovementData : MonoBehaviour
     [HideInInspector]public float jumpBuffer;
     public float jumpBufferCounter;
 
-    [Space(5)]
-    [Header("Gravity")]
-    public float gravityStrength;
+    [HideInInspector]public float gravityStrength;
+    [HideInInspector]public float gravityScale;
     private void OnValidate()
     {
         accelAmount = (rawAccelaration * 50) / topSpeed; //makes it so that accelaration is applied

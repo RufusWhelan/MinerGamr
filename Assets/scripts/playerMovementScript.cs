@@ -16,35 +16,57 @@ public class playerMovementScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        playerMovementInput = new Vector3(Input.GetAxisRaw("Horizontal"), 0f, Input.GetAxisRaw("Vertical")); //gets the users WASD input and turns it into a useable vector
-        if (Input.GetKeyDown(KeyCode.Space) && Data.coyoteTime > 0 && playerBody.linearVelocity.y <= 0.05f)
-        {
-            Data.jumpState = true;   
-        }
+        Data.jumpBuffer -= Time.deltaTime;
+        PlayerInput();
     }
     void FixedUpdate()
     {
-        groundCheck();
-        gravity();
+        GroundCheck();
+        Gravity();
         MovePlayer();
         if (Data.jumpState == true)
         {
             Jump();
-            Data.coyoteTime = 0;
-            Data.jumpState = false;
         }
     }
 
-    private void groundCheck()
+    private void PlayerInput()
+    {
+        playerMovementInput = new Vector3(Input.GetAxisRaw("Horizontal"), 0f, Input.GetAxisRaw("Vertical")); //gets the users WASD input and turns it into a useable vector
+        if (Input.GetKeyDown(KeyCode.Space))
+            Data.jumpBuffer = Data.jumpBufferCounter;
+
+        if (Data.jumpBuffer > 0 && Data.coyoteTime > 0 && playerBody.linearVelocity.y <= 0.1f)
+        {
+            Data.jumpState = true;   
+        }
+    }
+    private void GroundCheck()
     {  
         if (Physics.Raycast(transform.position, -transform.up, out Data.hit, Data.groundCheckDistance))
-            Data.coyoteTime = Data.coyoteTimeCounter;
+        {
+            Data.coyoteTime = Data.coyoteTimeCounter; 
+            Data.grounded = true;
+        }
         else
+        {
             Data.coyoteTime -= Time.deltaTime;
+            Data.grounded = false;
+        }
     }
-    private void gravity()
+    private void Gravity()
     {
-        playerBody.AddForce(Vector3.up * Data.gravityStrength, ForceMode.Acceleration);
+        if (Mathf.Abs(playerBody.linearVelocity.y) < Data.jumpHangTimeThreshold && Data.coyoteTime <= 0)
+            Data.gravityScale = Data.jumpHangTimeMulti;
+
+        else if (Input.GetKeyUp(KeyCode.Space) && playerBody.linearVelocity.y > 0.5 && Data.gravityScale != Data.jumpHangTimeMulti)
+            Data.gravityScale = Data.jumpCutGravMulti;
+            
+
+        else
+            Data.gravityScale = 1;
+
+        playerBody.AddForce(Vector3.up * Data.gravityStrength * Data.gravityScale, ForceMode.Acceleration); 
         Vector3 velocity = playerBody.linearVelocity;
         velocity.y = Mathf.Clamp(velocity.y, -40f, float.MaxValue);
         playerBody.linearVelocity = velocity;
@@ -80,7 +102,12 @@ public class playerMovementScript : MonoBehaviour
 
     private void Jump()
     { 
+        Data.coyoteTime = 0;
+        Data.jumpBuffer = 0;
+        Data.jumpState = false;
         float force = Data.jumpForce;
+        if (playerBody.linearVelocity.y < 0)
+			force -= playerBody.linearVelocity.y;
 
 		playerBody.AddForce(Vector3.up * force, ForceMode.Impulse);
     }
