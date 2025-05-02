@@ -500,10 +500,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rawAccelaration: 1.2
-  accelAmount: 7.5000005
+  accelAmount: 6.666667
   rawDeccelaration: 1
-  deccelAmount: 6.25
-  topSpeed: 8
+  deccelAmount: 5.5555553
+  topSpeed: 9
   grounded: 0
   groundCheckDistance: 1.2
   jumps: 0
@@ -513,7 +513,7 @@ MonoBehaviour:
   jumpForce: 15.555555
   jumpHangTimeThreshold: 0.4
   jumpHangTimeMulti: 0.2
-  jumpCutGravMulti: 4
+  jumpCutGravMulti: 5
   coyoteTime: 0
   coyoteTimeCounter: 0.2
   jumpBuffer: 0

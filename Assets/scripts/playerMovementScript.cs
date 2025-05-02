@@ -61,14 +61,13 @@ public class playerMovementScript : MonoBehaviour
 
         else if (Input.GetKeyUp(KeyCode.Space) && playerBody.linearVelocity.y > 0.5 && Data.gravityScale != Data.jumpHangTimeMulti)
             Data.gravityScale = Data.jumpCutGravMulti;
-            
 
         else
             Data.gravityScale = 1;
 
         playerBody.AddForce(Vector3.up * Data.gravityStrength * Data.gravityScale, ForceMode.Acceleration); 
         Vector3 velocity = playerBody.linearVelocity;
-        velocity.y = Mathf.Clamp(velocity.y, -40f, float.MaxValue);
+        velocity.y = Mathf.Clamp(velocity.y, -50f, float.MaxValue);
         playerBody.linearVelocity = velocity;
     }
 
