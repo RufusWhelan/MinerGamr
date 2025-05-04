@@ -33,6 +33,9 @@ public class playerMovementScript : MonoBehaviour
     private void PlayerInput()
     {
         playerMovementInput = new Vector3(Input.GetAxisRaw("Horizontal"), 0f, Input.GetAxisRaw("Vertical")); //gets the users WASD input and turns it into a useable vector
+        if (playerMovementInput.magnitude > 1)
+            playerMovementInput.Normalize();
+
         if (Input.GetKeyDown(KeyCode.Space))
             Data.jumpBuffer = Data.jumpBufferCounter;
 
@@ -88,14 +91,7 @@ public class playerMovementScript : MonoBehaviour
 
         Vector3 speedDif = new Vector3(targetSpeed.x - playerBody.linearVelocity.x, playerBody.linearVelocity.y, targetSpeed.z - playerBody.linearVelocity.z); //compares players current speed to target speed
         Vector3 movement;
-        if (moveVector.x != 0 && moveVector.z != 0) //checks if the player is moving diagonally
-        {
-            movement = new Vector3((speedDif.x * accelRate.x) / Mathf.Sqrt(2), 0f, (speedDif.z * accelRate.z) / Mathf.Sqrt(2)); //normalizes the vector to prevent player from moving faster diagonally
-        }
-        else
-        {
-            movement = new Vector3(speedDif.x * accelRate.x, 0f, speedDif.z * accelRate.z); //sets players speed to acceleration multiplied by the distance between current speed and target speed.
-        }
+        movement = new Vector3(speedDif.x * accelRate.x, 0f, speedDif.z * accelRate.z); //sets players speed to acceleration multiplied by the distance between current speed and target speed.
         playerBody.AddForce(movement.x, movement.y, movement.z, ForceMode.Force); //applies the force to the player.
     }
 
