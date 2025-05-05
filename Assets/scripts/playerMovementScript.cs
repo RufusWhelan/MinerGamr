@@ -3,7 +3,9 @@ using UnityEngine;
 public class playerMovementScript : MonoBehaviour
 {
     public playerMovementData Data;
+
     [SerializeField] private Rigidbody playerBody;
+    [SerializeField] private Transform cameraTransform;
     private Vector3 playerMovementInput;
 
 
@@ -18,6 +20,7 @@ public class playerMovementScript : MonoBehaviour
     {
         Data.jumpBuffer -= Time.deltaTime;
         PlayerInput();
+        rotation();
     }
     void FixedUpdate()
     {
@@ -44,6 +47,12 @@ public class playerMovementScript : MonoBehaviour
             Data.jumpState = true;   
         }
     }
+
+    private void rotation()
+    {
+        float targetYaw = cameraTransform.eulerAngles.y;
+        transform.rotation = Quaternion.Euler(0, targetYaw, 0);
+    }
     private void GroundCheck()
     {  
         if (Physics.Raycast(transform.position, -transform.up, out Data.hit, Data.groundCheckDistance))
@@ -65,12 +74,15 @@ public class playerMovementScript : MonoBehaviour
         else if (Input.GetKeyUp(KeyCode.Space) && playerBody.linearVelocity.y > 0.5 && Data.gravityScale != Data.jumpHangTimeMulti)
             Data.gravityScale = Data.jumpCutGravMulti;
 
+        else if (playerBody.linearVelocity.y < -0.5)
+            Data.gravityScale = Data.FallGravMulti;
+        
         else
             Data.gravityScale = 1;
 
         playerBody.AddForce(Vector3.up * Data.gravityStrength * Data.gravityScale, ForceMode.Acceleration); 
         Vector3 velocity = playerBody.linearVelocity;
-        velocity.y = Mathf.Clamp(velocity.y, -50f, float.MaxValue);
+        velocity.y = Mathf.Clamp(velocity.y, -60f, float.MaxValue);
         playerBody.linearVelocity = velocity;
     }
 

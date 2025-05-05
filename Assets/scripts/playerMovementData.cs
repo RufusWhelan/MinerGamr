@@ -23,7 +23,7 @@ public class playerMovementData : MonoBehaviour
     public float jumpHangTimeThreshold;
     public float jumpHangTimeMulti;
     public float jumpCutGravMulti;
-
+    public float FallGravMulti;
     [HideInInspector]public float coyoteTime;
 
     [Space(5)]
