@@ -104,6 +104,7 @@ public class playerMovementScript : MonoBehaviour
         Vector3 speedDif = new Vector3(targetSpeed.x - playerBody.linearVelocity.x, playerBody.linearVelocity.y, targetSpeed.z - playerBody.linearVelocity.z); //compares players current speed to target speed
         Vector3 movement;
         movement = new Vector3(speedDif.x * accelRate.x, 0f, speedDif.z * accelRate.z); //sets players speed to acceleration multiplied by the distance between current speed and target speed.
+        
         playerBody.AddForce(movement.x, movement.y, movement.z, ForceMode.Force); //applies the force to the player.
     }
 

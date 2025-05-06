@@ -1,12 +1,10 @@
 using UnityEngine;
-
 public class camScript : MonoBehaviour
 {
     public Transform player;
     public float distance;
     public float mouseSensitivity;
     public float smoothSpeed;
-
     private float yaw;
     private float pitch;
 
@@ -21,6 +19,6 @@ public class camScript : MonoBehaviour
         transform.position = Vector3.Lerp(transform.position, player.position + rotation * direction, smoothSpeed * Time.deltaTime);
 
         // Camera always looks at the player
-        transform.LookAt(player);
+        transform.LookAt(player.position);
     }
 }
