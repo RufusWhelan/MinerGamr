@@ -13,17 +13,14 @@ public class camScript : MonoBehaviour
 
     void LateUpdate()
     {
-        // Mouse input
         yaw += Input.GetAxis("Mouse X") * mouseSensitivity;
         pitch -= Input.GetAxis("Mouse Y") * mouseSensitivity;
         pitch = Mathf.Clamp(pitch, 0f, 60f);
 
-        // Desired position
         Quaternion rotation = Quaternion.Euler(pitch, yaw, 0f);
         Vector3 desiredPosition = player.position + rotation * new Vector3(0f, 0f, -distance);
         transform.position = Vector3.Lerp(transform.position, desiredPosition, smoothSpeed * Time.deltaTime);
 
-        // Smooth the look target
         smoothedLookTarget = Vector3.Lerp(smoothedLookTarget, player.position, smoothSpeed * Time.deltaTime);
         transform.LookAt(smoothedLookTarget);
     }

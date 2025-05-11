@@ -15,6 +15,7 @@ public class playerMovementData : MonoBehaviour
     [HideInInspector]public float jumps;
     [HideInInspector]public bool jumpState = false;
 
+
     [Space(5)]
     [Header("Jump")]
     public float jumpHeight;
@@ -34,6 +35,12 @@ public class playerMovementData : MonoBehaviour
 
     [HideInInspector]public float gravityStrength;
     [HideInInspector]public float gravityScale;
+
+    [HideInInspector] public bool dashState;
+    [HideInInspector]public float dashForce;    
+    public float dashDistance;
+    public float dashDuration;
+
     private void OnValidate()
     {
         accelAmount = (rawAccelaration * 50) / topSpeed; //makes it so that accelaration is applied
@@ -41,6 +48,8 @@ public class playerMovementData : MonoBehaviour
 
         gravityStrength = -(2 * jumpHeight) / (timeToApex * timeToApex); //a physics formula which established what the strength of gravity should be to allow the player to jump an entered height
         jumpForce = Mathf.Abs(gravityStrength) * timeToApex; //determins the amount of force required for the jump to reach the specified height that the specified rate
+
+        dashForce = (dashDistance * 50)/dashDuration;
 
     }
 }

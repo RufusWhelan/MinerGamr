@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Rendering;
 
 public class playerMovementScript : MonoBehaviour
 {
@@ -107,7 +108,6 @@ public class playerMovementScript : MonoBehaviour
         
         playerBody.AddForce(movement.x, movement.y, movement.z, ForceMode.Force); //applies the force to the player.
     }
-
     private void Jump()
     { 
         Data.coyoteTime = 0;
