@@ -83,17 +83,47 @@ __System needs to simulate a game world that:__
 * access to hardware capable of running the game
 
 ### Main Flow
-* __Movement:__ User inputs their 4 directional keybinds (w,a,s,d). The system applies continuous force the player horizontally accordingly, abiding by collisions.
-* __Jumping:__ User inputs their jump keybind (space). The system applies instantaneous force to the player sending them upwards.
-* __Dashing:__ User inputs their dash keybind (leftShift). the system applies the instantaneous force to the player sending them forwards.
-* __Throwing:__ User inputs their throw input (leftClick), system spawns in an explosive, applying instantaneous force to the object at a 45 degree angle.
-* __Exploding:__  User inputs
+* __Movement:__ User moves. System changes the players position on the horizontal axes accordingly, abiding by collisions, with continous force.
+* __Jumping:__ User jumps. System sends the player upwards, abiding by collisions, with insantaneous force.
+* __Dashing:__ User dashes. System sends the player forwards horizontally, abiding by collisions, with instantaneos force
+* __Throwing:__ User throws explosive. System spawns the object then lauches forwards on a 45 degree angle relative to the players position. If it hits an entity, the system destroys the explosive and the colliding entity.
+* __Exploding:__ User explodes explosive. System destroys the object and any entities within range. If the player is in range of the explosive, they get launched away from the exlplosive.
+* __Looking:__ User moves their mouse. system moves the player camera around the player accordingly.
+* __Pausing:__ Uses pauses. system freezes game logic to the nearest physics frame, displaying UI to switch to other scenes.
 
 ### Postconditions(Main)
+* Player is moved horizontally and vertically. 
+* Explosives are spawned and exploded (moving and destroying entities accordingly).
+* The camera is moved around the player.
 
-### Alternate Flow (Menus)
+### Alternate Flows (Menus)
+__Main Menu__
+* __Start:__ User starts game. System transitions to the first gameplay scene.
+* __Settings:__ User goes to settings. System transitions the settings scene.
+* __Loading:__ User selects 'load game'. System transitions to the savefile scene, displaying previous save files. User selects a save file. System loads corresponding game state and scene.
+* __Quit:__ User quits. System saves the current progress and then exits the game.
+
+
+__Settings Menu__
+* __Adjustiing Volume__ User drags volume sliders (Music/SFX). System updates volume of music and SFX values.
+* __Keybinding:__ User selects a keybind. System waits for new input, records the chosen key, and assigns it to the corresponding action, ensuring no duplicates before saving.
+* __Sensitivity:__ User adjusts mouse sensitivity. System stores sensitivity value and updates input detection accordingly.
+
+__Pause Menu__
+* __Saving:__ User saves. system generates or updates a save file with current player progress using JSON or PlayerPrefs.
+* __Settings:__ User goes to settings. system triggers settings scene.
+* __Quit:__ User quits. System saves the current progress and then exits the game.
 
 ### Postconditions(Alt)
-
+* Scenes are transitioned to accordingly. 
+* Player preferences are changed and updates. 
+* Savefiles are created, updated and loaded. 
+* Progress is saved and system is terminated.
 
 good https://learn.unity.com/tutorial/classes-5#
+
+Questions to ask sir:
+Is my User Interaction, error handling and non-functional specifications ok?
+Inputs and outputs vs mainflow / is my main flow right?
+Is it ok for me to have alternate FLOWS and then specify which one it is underneath
+do I only need the diagram for my main flow?
