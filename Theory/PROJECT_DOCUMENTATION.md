@@ -105,7 +105,7 @@ __Main Menu__
 
 
 __Settings Menu__
-* __Adjustiing Volume__ User drags volume sliders (Music/SFX). System updates volume of music and SFX values.
+* __Adjustiing Volume:__ User drags volume sliders (Music/SFX). System updates volume of music and SFX values.
 * __Keybinding:__ User selects a keybind. System waits for new input, records the chosen key, and assigns it to the corresponding action, ensuring no duplicates before saving.
 * __Sensitivity:__ User adjusts mouse sensitivity. System stores sensitivity value and updates input detection accordingly.
 
@@ -114,11 +114,13 @@ __Pause Menu__
 * __Settings:__ User goes to settings. system triggers settings scene.
 * __Quit:__ User quits. System saves the current progress and then exits the game.
 
-### Postconditions(Alt)
+### Postconditions(Alts)
 * Scenes are transitioned to accordingly. 
 * Player preferences are changed and updates. 
 * Savefiles are created, updated and loaded. 
 * Progress is saved and system is terminated.
+
+
 
 good https://learn.unity.com/tutorial/classes-5#
 
@@ -127,3 +129,8 @@ Is my User Interaction, error handling and non-functional specifications ok?
 Inputs and outputs vs mainflow / is my main flow right?
 Is it ok for me to have alternate FLOWS and then specify which one it is underneath
 do I only need the diagram for my main flow?
+
+https://excalidraw.com/#json=sGoA7cJHpgVhOvltEKy-E,7eMEukGvekvqzNzFpdYcEA = use case
+https://excalidraw.com/#json=gepgT8pfd2MVNC4XSi7ME,0utNk9wQLfn-ausf6FDGKQ = story board
+Do data flow
+Do Gantt Chart
