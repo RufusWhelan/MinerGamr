@@ -273,7 +273,7 @@ Rigidbody:
   m_ImplicitTensor: 1
   m_UseGravity: 0
   m_IsKinematic: 0
-  m_Interpolate: 0
+  m_Interpolate: 1
   m_Constraints: 112
   m_CollisionDetection: 1
 --- !u!114 &242422542
@@ -393,10 +393,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rawAccelaration: 1.6
-  accelAmount: 7.2727275
+  accelAmount: 5.3333335
   rawDeccelaration: 1.3
-  deccelAmount: 5.9090905
-  topSpeed: 11
+  deccelAmount: 4.333333
+  topSpeed: 15
   grounded: 0
   groundCheckDistance: 1.2
   jumps: 0
@@ -795,13 +795,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 771861675}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 815cf86a2f419bd4aa7d5adac8ab5982, type: 3}
+  m_Script: {fileID: 11500000, guid: 1ee1c3cfdc877bc4e9107122c482b43c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 242422546}
-  distance: 13.5
-  mouseSensitivity: 3.5
-  smoothSpeed: 1000
+  distance: 12
+  mouseSensitivity: 4
+  smoothSpeed: 550
 --- !u!1 &832575517
 GameObject:
   m_ObjectHideFlags: 0
