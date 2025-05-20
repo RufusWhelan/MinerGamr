@@ -21,10 +21,10 @@ public class playerMovementScript : MonoBehaviour
     {
         Data.jumpBuffer -= Time.deltaTime;
         PlayerInput();
-        rotation();
     }
     void FixedUpdate()
     {
+        rotation();
         GroundCheck();
         Gravity();
         MovePlayer();
