@@ -37,16 +37,13 @@ public class playerMovementScript : MonoBehaviour
     private void PlayerInput()
     {
         playerMovementInput = new Vector3(Input.GetAxisRaw("Horizontal"), 0f, Input.GetAxisRaw("Vertical")); //gets the users WASD input and turns it into a useable vector
-        if (playerMovementInput.magnitude > 1)
-            playerMovementInput.Normalize();
+        if (playerMovementInput.magnitude > 1) playerMovementInput.Normalize();
 
         if (Input.GetKeyDown(KeyCode.Space))
             Data.jumpBuffer = Data.jumpBufferCounter;
 
         if (Data.jumpBuffer > 0 && Data.coyoteTime > 0 && playerBody.linearVelocity.y <= 0.1f)
-        {
             Data.jumpState = true;   
-        }
     }
 
     private void rotation()
