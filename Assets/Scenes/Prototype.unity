@@ -800,7 +800,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 242422546}
   distance: 14
-  mouseSensitivity: 4
+  mouseSensitivity: 3
   smoothSpeed: 550
 --- !u!1 &832575517
 GameObject:
