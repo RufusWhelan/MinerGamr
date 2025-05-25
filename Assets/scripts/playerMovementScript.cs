@@ -20,8 +20,6 @@ public class playerMovementScript : MonoBehaviour
     void Update()
     {
         Data.jumpBuffer -= Time.deltaTime;
-
-
         PlayerInput();
     }
     void FixedUpdate()
@@ -45,10 +43,7 @@ public class playerMovementScript : MonoBehaviour
             Data.jumpBuffer = Data.jumpBufferCounter;
 
         if (Data.jumpBuffer > 0 && Data.coyoteTime > 0 && playerBody.linearVelocity.y <= 0.1f)
-            Data.jumpState = true;
-
-        if (Input.GetKeyDown(KeyCode.LeftShift))
-            Data.dashState = true;
+            Data.jumpState = true;   
     }
 
     private void rotation()
@@ -57,10 +52,10 @@ public class playerMovementScript : MonoBehaviour
         transform.rotation = Quaternion.Euler(0, targetYaw, 0);
     }
     private void GroundCheck()
-    {
+    {  
         if (Physics.Raycast(transform.position, -transform.up, out Data.hit, Data.groundCheckDistance))
         {
-            Data.coyoteTime = Data.coyoteTimeCounter;
+            Data.coyoteTime = Data.coyoteTimeCounter; 
             Data.grounded = true;
         }
         else
@@ -79,11 +74,11 @@ public class playerMovementScript : MonoBehaviour
 
         else if (playerBody.linearVelocity.y < -0.5)
             Data.gravityScale = Data.FallGravMulti;
-
+        
         else
             Data.gravityScale = 1;
 
-        playerBody.AddForce(Vector3.up * Data.gravityStrength * Data.gravityScale, ForceMode.Acceleration);
+        playerBody.AddForce(Vector3.up * Data.gravityStrength * Data.gravityScale, ForceMode.Acceleration); 
         Vector3 velocity = playerBody.linearVelocity;
         velocity.y = Mathf.Clamp(velocity.y, -60f, float.MaxValue);
         playerBody.linearVelocity = velocity;
@@ -95,11 +90,11 @@ public class playerMovementScript : MonoBehaviour
         Vector3 targetSpeed = new Vector3(moveVector.x * Data.topSpeed, 0f, moveVector.z * Data.topSpeed); //ensures the the users target speed as the correct sign.
 
         Vector3 accelRate;
-        accelRate = new Vector3(Mathf.Abs(targetSpeed.x) > 0.01 ? Data.accelAmount : Data.deccelAmount, 0f, Mathf.Abs(targetSpeed.z) > 0.01 ? Data.accelAmount : Data.deccelAmount); //checks if the player is actively moving and applies accelarion or deccelaration accordingly
+        accelRate = new Vector3(Mathf.Abs(targetSpeed.x) > 0.01 ? Data.accelAmount : Data.deccelAmount, 0f,  Mathf.Abs(targetSpeed.z) > 0.01 ? Data.accelAmount : Data.deccelAmount); //checks if the player is actively moving and applies accelarion or deccelaration accordingly
 
         if (Mathf.Abs(playerBody.linearVelocity.x) > Mathf.Abs(targetSpeed.x) && Mathf.Abs(playerBody.linearVelocity.x) == Mathf.Abs(targetSpeed.x) && Mathf.Abs(targetSpeed.x) > 0.01f)
             accelRate.x = 0;
-
+        
         if (Mathf.Abs(playerBody.linearVelocity.z) > Mathf.Abs(targetSpeed.z) && Mathf.Abs(playerBody.linearVelocity.z) == Mathf.Abs(targetSpeed.z) && Mathf.Abs(targetSpeed.z) > 0.01f)
             accelRate.z = 0;
         //allows the player to conserve momentum even if they are surpassing the target speed as long as they don't slow down
@@ -107,31 +102,18 @@ public class playerMovementScript : MonoBehaviour
         Vector3 speedDif = new Vector3(targetSpeed.x - playerBody.linearVelocity.x, playerBody.linearVelocity.y, targetSpeed.z - playerBody.linearVelocity.z); //compares players current speed to target speed
         Vector3 movement;
         movement = new Vector3(speedDif.x * accelRate.x, 0f, speedDif.z * accelRate.z); //sets players speed to acceleration multiplied by the distance between current speed and target speed.
-
+        
         playerBody.AddForce(movement.x, movement.y, movement.z, ForceMode.Force); //applies the force to the player.
     }
     private void Jump()
-    {
+    { 
         Data.coyoteTime = 0;
         Data.jumpBuffer = 0;
         Data.jumpState = false;
         float force = Data.jumpForce;
         if (playerBody.linearVelocity.y < 0)
-            force -= playerBody.linearVelocity.y;
+			force -= playerBody.linearVelocity.y;
 
-        playerBody.AddForce(Vector3.up * force, ForceMode.Impulse);
-    }
-    private void dash()
-    {
-        Debug.Log("Dashed");
-        Data.dashState = false;
-    }
-    private void throwExplosive()
-    {
-        Debug.Log("Thrown");
-    }
-    private void explodedExplosive()
-    {
-            Debug.Log("exploded");
+		playerBody.AddForce(Vector3.up * force, ForceMode.Impulse);
     }
 }
