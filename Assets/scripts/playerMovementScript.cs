@@ -32,6 +32,20 @@ public class playerMovementScript : MonoBehaviour
         {
             Jump();
         }
+
+        if (Data.dashInput == true)
+        {
+            dash();
+        }
+
+        if (Data.throwInput == true)
+        {
+            throwExplosive();
+        }
+        if (Data.explosionInput == true)
+        {
+            explodeExplosive();
+        }
     }
 
     private void PlayerInput()
@@ -43,7 +57,18 @@ public class playerMovementScript : MonoBehaviour
             Data.jumpBuffer = Data.jumpBufferCounter;
 
         if (Data.jumpBuffer > 0 && Data.coyoteTime > 0 && playerBody.linearVelocity.y <= 0.1f)
+<<<<<<< Updated upstream
             Data.jumpState = true;   
+=======
+            Data.jumpState = true;
+
+        if (Input.GetKeyDown(KeyCode.LeftShift))
+            Data.dashInput = true;
+        if (Input.GetMouseButtonDown(0))
+            Data.throwInput = true;
+        if (Input.GetMouseButtonDown(1))
+            Data.explosionInput = true;
+>>>>>>> Stashed changes
     }
 
     private void rotation()
@@ -114,6 +139,25 @@ public class playerMovementScript : MonoBehaviour
         if (playerBody.linearVelocity.y < 0)
 			force -= playerBody.linearVelocity.y;
 
+<<<<<<< Updated upstream
 		playerBody.AddForce(Vector3.up * force, ForceMode.Impulse);
+=======
+        playerBody.AddForce(Vector3.up * force, ForceMode.Impulse);
+    }
+    private void dash()
+    {
+        Debug.Log("Dashed");
+        Data.dashInput = false;
+    }
+    private void throwExplosive()
+    {
+        Data.throwInput = false;
+        Debug.Log("Thrown");
+    }
+    private void explodeExplosive()
+    {
+        Data.explosionInput = false;
+        Debug.Log("exploded");
+>>>>>>> Stashed changes
     }
 }
