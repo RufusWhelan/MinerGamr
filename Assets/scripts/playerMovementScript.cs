@@ -57,9 +57,6 @@ public class playerMovementScript : MonoBehaviour
             Data.jumpBuffer = Data.jumpBufferCounter;
 
         if (Data.jumpBuffer > 0 && Data.coyoteTime > 0 && playerBody.linearVelocity.y <= 0.1f)
-<<<<<<< Updated upstream
-            Data.jumpState = true;   
-=======
             Data.jumpState = true;
 
         if (Input.GetKeyDown(KeyCode.LeftShift))
@@ -68,7 +65,6 @@ public class playerMovementScript : MonoBehaviour
             Data.throwInput = true;
         if (Input.GetMouseButtonDown(1))
             Data.explosionInput = true;
->>>>>>> Stashed changes
     }
 
     private void rotation()
@@ -139,9 +135,6 @@ public class playerMovementScript : MonoBehaviour
         if (playerBody.linearVelocity.y < 0)
 			force -= playerBody.linearVelocity.y;
 
-<<<<<<< Updated upstream
-		playerBody.AddForce(Vector3.up * force, ForceMode.Impulse);
-=======
         playerBody.AddForce(Vector3.up * force, ForceMode.Impulse);
     }
     private void dash()
@@ -158,6 +151,5 @@ public class playerMovementScript : MonoBehaviour
     {
         Data.explosionInput = false;
         Debug.Log("exploded");
->>>>>>> Stashed changes
     }
 }

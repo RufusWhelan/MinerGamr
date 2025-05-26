@@ -392,11 +392,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c96118665f7fb664087a9885ba48e234, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rawAccelaration: 1.2
-  accelAmount: 3
-  rawDeccelaration: 1.5
-  deccelAmount: 3.75
-  topSpeed: 20
+  rawAccelaration: 1.4
+  accelAmount: 3.8888888
+  rawDeccelaration: 1.6
+  deccelAmount: 4.4444447
+  topSpeed: 18
   grounded: 0
   groundCheckDistance: 1.2
   jumps: 0
@@ -414,10 +414,12 @@ MonoBehaviour:
   jumpBufferCounter: 0.1
   gravityStrength: -37.03704
   gravityScale: 0
-  dashState: 0
+  dashInput: 0
   dashForce: 500
   dashDistance: 5
   dashDuration: 0.5
+  throwInput: 0
+  explosionInput: 0
 --- !u!1 &301854916
 GameObject:
   m_ObjectHideFlags: 0
