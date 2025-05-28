@@ -1,3 +1,4 @@
+using JetBrains.Annotations;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -13,5 +14,11 @@ public class MainMenu : MonoBehaviour
     {
         Debug.Log("quit");
         Application.Quit();
+    }
+    public void modeSwitchSlider(float value)
+    {
+        float localvalue = value;
+        if (localvalue == 0)
+            Debug.Log("switchedToControllerBinds");
     }
 }
