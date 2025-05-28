@@ -43,7 +43,10 @@ public class playerMovementData : MonoBehaviour
     public float dashDuration;
 
     [HideInInspector] public bool throwInput;
+    [HideInInspector] public bool explosiveEntity;
     [HideInInspector] public bool explosionInput;
+
+    [HideInInspector] public bool pause;
     private void OnValidate()
     {
         accelAmount = (rawAccelaration * 50) / topSpeed; //makes it so that accelaration is applied
