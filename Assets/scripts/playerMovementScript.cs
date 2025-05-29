@@ -16,8 +16,8 @@ public class playerMovementScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Data.jumpBuffer -= Time.deltaTime;
-        PlayerInput();
+        Data.jumpBuffer -= Time.deltaTime; //establishes constant jumpbuffer timer
+        PlayerInput(); //runs player input in update for smoother gameplay experience
     }
     void FixedUpdate()
     {
@@ -25,6 +25,8 @@ public class playerMovementScript : MonoBehaviour
         GroundCheck();
         Gravity();
         MovePlayer();
+        //runs functions that are constant and run every physics update
+
         if (Data.jumpState == true)
             Jump();
 
@@ -36,13 +38,22 @@ public class playerMovementScript : MonoBehaviour
 
         if (Data.explosionInput == true)
             explodeExplosive();
-            
+
         if (Data.pause == true)
             pause();
+        
+        //if the input for an action has been entered, trigger the corresponding action.
     }
 
     private void PlayerInput()
     {
+        /*
+        Interprets player inputs from update into booleans that can trigger functions in FixedUpdate.
+
+        'returns':
+            bools: player input values 
+
+        */
         playerMovementInput = new Vector3(Input.GetAxisRaw("Horizontal"), 0f, Input.GetAxisRaw("Vertical")); //gets the users WASD input and turns it into a useable vector
         if (playerMovementInput.magnitude > 1) playerMovementInput.Normalize(); //normalises player input to prevent the player from travelling faster diagonally.
 
@@ -68,9 +79,9 @@ public class playerMovementScript : MonoBehaviour
     private void rotation()
     {
         /*
-        Rotates the player in accordance to the camera
+        Rotates the player in accordance to the camera.
         
-        returns:
+        'returns':
             vector3: updated player rotation
         */
         float targetYaw = cameraTransform.eulerAngles.y;
@@ -79,9 +90,9 @@ public class playerMovementScript : MonoBehaviour
     private void GroundCheck()
     {
         /*
-        Checks if the player is touching the ground
+        Checks if the player is touching the ground.
 
-        returns:
+        'returns':
             bool: whether or not the player is grounded
         */
         if (Physics.Raycast(transform.position, -transform.up, out Data.hit, Data.groundCheckDistance)) //sends a raycast from the center of the player to a little bit below the base of the player
@@ -99,9 +110,9 @@ public class playerMovementScript : MonoBehaviour
     private void Gravity()
     {
         /*
-        Applies constant acceleration force to the player, pulling downwards on the y axis
+        Applies constant acceleration force to the player, pulling downwards on the y axis.
 
-        returns:
+        'returns':
             vector3: updated player position on the y axis
         */
         if (Mathf.Abs(playerBody.linearVelocity.y) < Data.jumpHangTimeThreshold && Data.coyoteTime <= 0) //checks if the player is not touching the ground and if there velocity is within the Hangtime Theshhold
@@ -125,13 +136,13 @@ public class playerMovementScript : MonoBehaviour
     private void MovePlayer()
     {
         /*
-        Moves the player on the X and Z axis
+        Moves the player on the X and Z axis.
 
-        returns:
+        'returns':
             Vector3: updated player position on the X and Z axes
         */
         Vector3 moveVector = transform.TransformDirection(playerMovementInput); //makes the WASD vector relative to the direction the player is facing
-        Vector3 targetSpeed = new Vector3(moveVector.x * Data.topSpeed, 0f, moveVector.z * Data.topSpeed); //ensures the the users target speed as the correct sign
+        Vector3 targetSpeed = new Vector3(moveVector.x * Data.topSpeed, 0f, moveVector.z * Data.topSpeed); //ensures that the users target speed is the correct sign
 
         Vector3 accelRate;
         accelRate = new Vector3(Mathf.Abs(targetSpeed.x) > 0.01 ? Data.accelAmount : Data.deccelAmount, 0f, Mathf.Abs(targetSpeed.z) > 0.01 ? Data.accelAmount : Data.deccelAmount); //checks if the player is actively moving and applies accelarion or deccelaration accordingly
@@ -143,7 +154,7 @@ public class playerMovementScript : MonoBehaviour
             accelRate.z = 0;
         //allows the player to conserve momentum even if they are surpassing the target speed as long as they don't slow down
 
-        Vector3 speedDif = new Vector3(targetSpeed.x - playerBody.linearVelocity.x, playerBody.linearVelocity.y, targetSpeed.z - playerBody.linearVelocity.z); //compares players current speed to target speed
+        Vector3 speedDif = new Vector3(targetSpeed.x - playerBody.linearVelocity.x, playerBody.linearVelocity.y, targetSpeed.z - playerBody.linearVelocity.z); //compares players current speed to target speed to determine how much force is applied to the player.
         Vector3 movement;
         movement = new Vector3(speedDif.x * accelRate.x, 0f, speedDif.z * accelRate.z); //sets players speed to acceleration multiplied by the distance between current speed and target speed
 
@@ -152,8 +163,9 @@ public class playerMovementScript : MonoBehaviour
     private void Jump()
     {
         /*
-        Moves the player upwards on the y axis
-        returns:
+        Moves the player upwards on the y axis.
+
+        'returns':
             vector3: updated player position on th y axis
         */
         Data.jumpState = false;  //stop registering input on the first frame this function is called
@@ -169,9 +181,9 @@ public class playerMovementScript : MonoBehaviour
     private void dash()
     {
         /*
-        player dashes forward
+        Player dashes forward.
         
-        Returns:
+        'returns':
             str: a "dashed" msg
         */
         Debug.Log("Dashed");
@@ -181,9 +193,9 @@ public class playerMovementScript : MonoBehaviour
     private void throwExplosive()
     {
         /*
-        Spawns an Explosive
+        Spawns an Explosive.
 
-        Returns:
+        'returns':
             str: a 'Thrown' msg 
         */
         Data.throwInput = false; //stop registering input on the first frame this function is called
@@ -194,9 +206,9 @@ public class playerMovementScript : MonoBehaviour
     private void explodeExplosive()
     {
         /*
-        explodes the explosive spawned by throw explosive
+        Explodes the explosive spawned by throw explosive.
 
-        Returns:
+        'returns':
             str: an 'exploded' msg 
         */
         Data.explosionInput = false; //stop registering input on the first frame this function is called
@@ -212,7 +224,7 @@ public class playerMovementScript : MonoBehaviour
         /**
         Pauses the game and brings up a paused menu.
 
-        Returns:
+        'returns':
             str: a 'paused' or 'unpaused' msg.
 
         */

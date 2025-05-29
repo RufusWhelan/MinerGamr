@@ -49,8 +49,14 @@ public class playerMovementData : MonoBehaviour
     [HideInInspector] public bool pause;
     private void OnValidate()
     {
-        accelAmount = (rawAccelaration * 50) / topSpeed; //makes it so that accelaration is applied
-        deccelAmount = (rawDeccelaration * 50) / topSpeed;
+        /*
+        Adjusts values from editor so they are calculated every physics frames and ajusts gravity to coincide with jump height
+
+        return:
+            none
+        */
+        accelAmount = (rawAccelaration * 50) / topSpeed; //makes it so that acceleration entered in the editor is adjusted to be calculated every physics frame.
+        deccelAmount = (rawDeccelaration * 50) / topSpeed; //makes it so that deceleration entered in the editor is adjusted to be calculated every physics frame.
 
         gravityStrength = -(2 * jumpHeight) / (timeToApex * timeToApex); //a physics formula which established what the strength of gravity should be to allow the player to jump an entered height
         jumpForce = Mathf.Abs(gravityStrength) * timeToApex; //determins the amount of force required for the jump to reach the specified height that the specified rate
