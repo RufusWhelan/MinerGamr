@@ -1,3 +1,4 @@
+using System.Data.Common;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Rendering;
@@ -18,6 +19,11 @@ public class playerMovementScript : MonoBehaviour
     {
         Data.jumpBuffer -= Time.deltaTime; //establishes constant jumpbuffer timer
         PlayerInput(); //runs player input in update for smoother gameplay experience
+        if (Data.pause == true)
+            pause();
+
+        if (Data.pause == false)
+            unpause();
     }
     void FixedUpdate()
     {
@@ -39,9 +45,6 @@ public class playerMovementScript : MonoBehaviour
         if (Data.explosionInput == true)
             explodeExplosive();
 
-        if (Data.pause == true)
-            pause();
-        
         //if the input for an action has been entered, trigger the corresponding action.
     }
 
@@ -72,8 +75,8 @@ public class playerMovementScript : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Mouse1))
             Data.explosionInput = true; //if the player RightClicks they attempt to explode an explosive
 
-        if (Input.GetKeyDown(KeyCode.Escape) && !Data.pause)
-            Data.pause = true; //If the player clicks escape and the gane isn't already paused, pause the game
+        if (Input.GetKeyDown(KeyCode.Escape))
+            Data.pause = !Data.pause;
     }
 
     private void rotation()
@@ -221,19 +224,13 @@ public class playerMovementScript : MonoBehaviour
 
     private void pause()
     {
-        /**
-        Pauses the game and brings up a paused menu.
-
-        'returns':
-            str: a 'paused' or 'unpaused' msg.
-
-        */
         Debug.Log("game paused"); //game is 'paused'
-        if (Input.GetKeyUp(KeyCode.Escape))
-        {
-            Debug.Log("game unpaused");
-            Data.pause = false;
-        } //game is unpaused once the key is released
+        Time.timeScale = 0f;
+    }
+    private void unpause()
+    {
+        Debug.Log("game unpaused"); //game is 'unpaused'
+        Time.timeScale = 1f;
     }
 }
 

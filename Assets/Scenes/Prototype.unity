@@ -419,7 +419,9 @@ MonoBehaviour:
   dashDistance: 5
   dashDuration: 0.5
   throwInput: 0
+  explosiveEntity: 0
   explosionInput: 0
+  pause: 0
 --- !u!1 &301854916
 GameObject:
   m_ObjectHideFlags: 0
@@ -801,8 +803,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 242422546}
-  distance: 14
-  mouseSensitivity: 3
+  distance: 15
+  mouseSensitivity: 2.5
   smoothSpeed: 400
 --- !u!1 &832575517
 GameObject:
