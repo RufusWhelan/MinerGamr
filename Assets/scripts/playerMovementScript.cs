@@ -1,7 +1,4 @@
-using System.Data.Common;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.Rendering;
 
 public class playerMovementScript : MonoBehaviour
 {
