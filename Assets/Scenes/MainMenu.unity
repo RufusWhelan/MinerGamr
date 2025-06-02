@@ -1749,7 +1749,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 297891860}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f02d71d771268d34f9e71f3485f52aab, type: 3}
+  m_Script: {fileID: 11500000, guid: fb6d285cc7db69b438e02732f9631e9e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &300807225
@@ -2578,7 +2578,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 297891864}
-        m_TargetAssemblyTypeName: MainMenu, Assembly-CSharp
+        m_TargetAssemblyTypeName: UIController, Assembly-CSharp
         m_MethodName: gameStart
         m_Mode: 1
         m_Arguments:
@@ -7305,7 +7305,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 297891864}
-        m_TargetAssemblyTypeName: MainMenu, Assembly-CSharp
+        m_TargetAssemblyTypeName: UIController, Assembly-CSharp
         m_MethodName: gameQuit
         m_Mode: 1
         m_Arguments:
