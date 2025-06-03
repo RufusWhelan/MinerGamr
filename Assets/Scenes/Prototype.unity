@@ -239,9 +239,9 @@ GameObject:
   - component: {fileID: 242422545}
   - component: {fileID: 242422544}
   - component: {fileID: 242422543}
-  - component: {fileID: 242422542}
-  - component: {fileID: 242422547}
   - component: {fileID: 242422541}
+  - component: {fileID: 242422547}
+  - component: {fileID: 242422548}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -276,21 +276,6 @@ Rigidbody:
   m_Interpolate: 1
   m_Constraints: 112
   m_CollisionDetection: 1
---- !u!114 &242422542
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 242422540}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 021b1d48086640140baa47522cd3a17c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Data: {fileID: 242422547}
-  playerBody: {fileID: 242422541}
-  cameraTransform: {fileID: 771861679}
 --- !u!135 &242422543
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -422,6 +407,21 @@ MonoBehaviour:
   explosiveEntity: 0
   explosionInput: 0
   pause: 0
+--- !u!114 &242422548
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 242422540}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 021b1d48086640140baa47522cd3a17c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Data: {fileID: 242422547}
+  playerBody: {fileID: 242422541}
+  cameraTransform: {fileID: 771861679}
 --- !u!1 &301854916
 GameObject:
   m_ObjectHideFlags: 0
