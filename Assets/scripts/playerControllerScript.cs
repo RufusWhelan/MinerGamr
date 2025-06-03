@@ -1,8 +1,8 @@
 using UnityEngine;
 
-public class playerMovementScript : MonoBehaviour
+public class playerControllerScript : MonoBehaviour
 {
-    public playerMovementData Data;
+    public playerData Data;
     [SerializeField] private Rigidbody playerBody;
     [SerializeField] private Transform cameraTransform;
     private Vector3 playerMovementInput;
@@ -17,14 +17,14 @@ public class playerMovementScript : MonoBehaviour
         Data.jumpBuffer -= Time.deltaTime; //establishes constant jumpbuffer timer
         PlayerInput(); //runs player input in update for smoother gameplay experience
         if (Data.pause == true)
-            pause();
+            Pause();
 
         if (Data.pause == false)
-            unpause();
+            Unpause();
     }
     void FixedUpdate()
     {
-        rotation();
+        Rotation();
         GroundCheck();
         Gravity();
         MovePlayer();
@@ -34,13 +34,13 @@ public class playerMovementScript : MonoBehaviour
             Jump();
 
         if (Data.dashInput == true)
-            dash();
+            Dash();
 
         if (Data.throwInput == true)
-            throwExplosive();
+            ThrowExplosive();
 
         if (Data.explosionInput == true)
-            explodeExplosive();
+            ExplodeExplosive();
 
         //if the input for an action has been entered, trigger the corresponding action.
     }
@@ -76,7 +76,7 @@ public class playerMovementScript : MonoBehaviour
             Data.pause = !Data.pause;
     }
 
-    private void rotation()
+    private void Rotation()
     {
         /*
         Rotates the player in accordance to the camera.
@@ -178,7 +178,7 @@ public class playerMovementScript : MonoBehaviour
 
         playerBody.AddForce(Vector3.up * force, ForceMode.Impulse); //applies the force to the player as an impulse
     }
-    private void dash()
+    private void Dash()
     {
         /*
         Player dashes forward.
@@ -190,7 +190,7 @@ public class playerMovementScript : MonoBehaviour
         Data.dashInput = false;
     } //player dashes
 
-    private void throwExplosive()
+    private void ThrowExplosive()
     {
         /*
         Spawns an Explosive.
@@ -203,7 +203,7 @@ public class playerMovementScript : MonoBehaviour
         Debug.Log("Thrown");
     }
 
-    private void explodeExplosive()
+    private void ExplodeExplosive()
     {
         /*
         Explodes the explosive spawned by throw explosive.
@@ -219,12 +219,12 @@ public class playerMovementScript : MonoBehaviour
         } //explodes and removes said entity
     }
 
-    private void pause()
+    private void Pause()
     {
         Debug.Log("game paused"); //game is 'paused'
         Time.timeScale = 0f;
     }
-    private void unpause()
+    private void Unpause()
     {
         Debug.Log("game unpaused"); //game is 'unpaused'
         Time.timeScale = 1f;

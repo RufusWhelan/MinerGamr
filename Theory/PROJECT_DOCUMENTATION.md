@@ -1,6 +1,6 @@
 # __MinerGame__
 
-## __sprint 1__
+## __Sprint 1__
 ## Requirements Definition
 ### __Functional Requirements__
 * User can move their character around in 3 dimensional space.
@@ -118,6 +118,16 @@ __Pause Menu__
 * Player preferences are changed and updates. 
 * Savefiles are created, updated and loaded. 
 * Progress is saved and system is terminated.
+
+### Use Case Diagram
+
+## Design
+
+### Storyboard
+
+### Dataflow diagrams
+
+### Gantt Chart
 
 ## Build
 (all scripts)
@@ -480,6 +490,56 @@ __2)__ Compared to the usecases, the program performs unsatifactory, living up t
 __3)__ The quality of my code is satifactory, as it named consistently, thouroughly commented and relatively organised. Code has seperated into different files depending on what they are used for (player movement, camera movement and UI) with names that make sense for what they do and the amount of actual code in the main functions (update and fixed update) has been reduced through the use of functions that breakdown the code into more readble and reusable chunks. Code could be broken down further if some functions were placed in separate files or classes were implemented. As the scripts become more complex, and less readable it is likely that the playerInput and Explosive functions will be placed in their own files. For the time being, the codes quality in terms of readability, structure and maintainability is adequite.
 
 __4)__ In the next stage of development, the remaining functional requirements and usecases should be implemented into the program. In its current state the game lacks many of its core mechanics that seperate the game from just another 3d platformer, by implementing the remaining functions from the mainflow, the projects quality can drastically be increased. By fininishing the menus and completing the non functional requirements (such as adjustable volume, sensitivty and changing keybinds) the accessability and overall game polish will be improved in the next sprint. By implementing these changes, it can be ensured that the project alligns with its original functional and non-functional requirements by the end of sprint 2.
+
+## __Sprint 2__ 
+### Pseudocode
+```
+PLAYER CONTROLLER
+BEGIN FixedUpdate()
+    alive = true
+    WHILE alive is true
+        RotatePlayer
+        CheckGroundCollision
+        Gravity
+        MovePlayer
+
+        IF jumpInput THEN
+            Jump
+        END IF
+
+        If dashInput THEN
+            Dash
+        ENDIF
+
+        If throwInput THEN
+            ThrowExplosive
+        ENDIF
+
+        If explideInput THEN
+            ExplodeInput
+        ENDIF
+
+    END WHILE
+END FixedUpdate()
+```
+
+```
+BEGIN MovePlayer()
+    moveVector = playerMovementInput
+    targetSpeed = The Top horizontal speed (x, y)
+
+END MovePlayer()
+```
+
+```
+CAMERASCRIPT
+BEGIN LateUpdate()
+
+END LateUpdate()
+
+```
+
+### Flowcharts
 
 
 good https://learn.unity.com/tutorial/classes-5#
