@@ -9,7 +9,7 @@
 * User can dash forwards on ground or in the air, giving the player a sudden burst of speed.
 * system can simulate basic enemies that can attack the player and that the player can destroy.
 * User can die if their hp reaches zero.
-* User can navigate through a main menu to start the game, quit the game, adjust settings or save/load a save file.
+* User can navigate through a main menu to start the game, quit the game, adjust Options or save/load a save file.
 * User can save their progress in the game and continue the game from that point next time they load the game.
 
 ### __Non-functional Requirements__
@@ -29,9 +29,9 @@
 * User can use a 'dash' input. The system will send the player forward, increasing the characters speed for a short duration after the dash ends.
 * User can use a 'throw explosive' input. The system will spawn in an object from inside the player that shoots upwards at a 45 degree angle before landing on the ground in front of the player. If it hits the player or an enemy, it will instantly explode
 * User can use an 'explode explosive' input. The system will destroy the 'explosive' and any destructable objects around it. Additionally, if any moveable objects (including the player) are in the radius of the explosion, they will be launched on an angle according to their position in relation to the explosive's position
-* User can choose to 'start', go to 'settings', 'load', 'quit'. The system will then trigger the scene that corresponds to that input whilst in the main menu.
-* User can use sliders to adjust volume of music or SFX and can change the key that corresponds to each input, whilst in settings. The system will take these inputs and adjust the game accordingly.
-* User can use a 'pause' input. This freezes the game world and brings up a pause menu where users can 'save', go to settings or 'quit'.
+* User can choose to 'start', go to 'Options', 'load', 'quit'. The system will then trigger the scene that corresponds to that input whilst in the main menu.
+* User can use sliders to adjust volume of music or SFX and can change the key that corresponds to each input, whilst in Options. The system will take these inputs and adjust the game accordingly.
+* User can use a 'pause' input. This freezes the game world and brings up a pause menu where users can 'save', go to Options or 'quit'.
 * On saving, the system creates a json file or uses playerprefs to save the users progress in the game.
 * On loading, the system brings the user to a screen which shows their previous saves. They can select the one they want to play and the corresponding scene will be triggered.
 * On quiting, the system automatically saves player progress just incase, before shutting the game.
@@ -43,7 +43,7 @@ __System needs to simulate a game world that:__
 * simulates enemies with basic ai that can be destroyed by the player and can deal damage to the player.
 * Allows the user to die and respawn.
 * Allows the user to start the game by clicking the buttons.
-* Allows the user to adjust settings by using sliders and buttons.
+* Allows the user to adjust Options by using sliders and buttons.
 * Allows the user to save and load their progress.
 * Allows the user to quit the program.
 
@@ -98,19 +98,20 @@ the numbers next to each use case refer to which sprint it was completed in
 ### Alternate Flows (Menus)
 __Main Menu__
 * __Start:__ User starts game. System transitions to the first gameplay scene. (1)
-* __Settings:__ User goes to settings. System transitions the settings scene. (1)
+* __Options:__ User goes to Options. System transitions the Options scene. (1)
 * __Loading:__ User selects 'load game'. System transitions to the savefile screen, displaying previous save files. User selects a save file. System loads corresponding game state and scene.
 * __Quit:__ User quits. System saves the current progress and then exits the game. (1)
 
-
-__Settings Menu__
+__Options Menu__
 * __Adjustiing Volume:__ User drags volume sliders (Music/SFX). System updates volume of music and SFX values.
 * __Keybinding:__ User selects a keybind. System waits for new input, records the chosen key, and assigns it to the corresponding action, ensuring no duplicates before saving.
 * __Sensitivity:__ User adjusts mouse sensitivity. System stores sensitivity value and updates input detection accordingly.
 
 __Pause Menu__
+* __MainMenu:__ User selects 'return to main menu'. System saves, then loads the mainmenu scene.
 * __Saving:__ User saves. system generates or updates a save file with current player progress using JSON or PlayerPrefs.
-* __Settings:__ User goes to settings. system triggers settings scene.
+* __Loading:__ User selects 'load game'. System transitions to the savefile screen, displaying previous save files. User selects a save file. System loads corresponding game state and scene.
+* __Options:__ User goes to Options. system triggers Options scene.
 * __Quit:__ User quits. System saves the current progress and then exits the game.
 
 ### Postconditions(Alts)
@@ -525,8 +526,22 @@ END FixedUpdate()
 
 ```
 BEGIN MovePlayer()
-    moveVector = playerMovementInput
-    targetSpeed = The Top horizontal speed (x, y)
+    moveVector = WASD Input relative to player position
+    targetSpeed = The Top horizontal speed multiplied by the movement vector (x, z)
+
+    IF the absolute value of target speed is more than 0.1 THEN
+        acceleration = acceleration
+    ELSE
+        acceleration = decceleration
+    END IF
+
+    IF the player travels faster than the target speed THEN
+        acceleration = 0
+    END IF
+
+    speedDif = targetSpeed - players current Horizontal velocity (x, z)
+    movement = acceleration * speedDif
+    Apply movement as a force to the players
 
 END MovePlayer()
 ```
@@ -534,6 +549,14 @@ END MovePlayer()
 ```
 CAMERASCRIPT
 BEGIN LateUpdate()
+    yaw += mouseInput on the y axis * mouseSenitivity
+    pitch -= mouseInput on the x axis * mouseSensitivty but must be between the values of -1 and 80
+
+    rotation = pitch, yaw (x,y)
+    desiredPosition = the players position + rotation * the distance that the camera is away from the player
+    cameraPosition = the interpolated value of the camera current position and desiredPosition
+
+    Camera Looks at player
 
 END LateUpdate()
 
@@ -547,4 +570,4 @@ good https://learn.unity.com/tutorial/classes-5#
 https://excalidraw.com/#json=sGoA7cJHpgVhOvltEKy-E,7eMEukGvekvqzNzFpdYcEA = use case
 https://excalidraw.com/#json=zN0EMZ1auaCvxsbXqY2aB,f3NGzKGralf9N8rrP236RQ = story board
 https://excalidraw.com/#json=4zMQT8zD0B1HZ4KdXO0hY,6Qrx24upHSLiRYAaXKf17g = level 1 data flow diagram
-https://excalidraw.com/#json=xrA5f3HwlI7lxRd6srMU1,QUzdNTJaEERJBy8CApsOEg 
+https://excalidraw.com/#json=MqRgMVZfMxN5_VPKC9c3E,4YYp5qs5h2-6kcYFrRLJwg 

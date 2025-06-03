@@ -1,5 +1,5 @@
 using UnityEngine;
-public class playerMovementData : MonoBehaviour
+public class playerData : MonoBehaviour
 {
     [Header("Run")]
     public float rawAccelaration;

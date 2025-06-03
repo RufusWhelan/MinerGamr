@@ -6,7 +6,6 @@ public class camScript : MonoBehaviour
     public float distance = 5f;
     public float mouseSensitivity = 2f;
     public float smoothSpeed = 10f;
-
     private float yaw;
     private float pitch;
 
