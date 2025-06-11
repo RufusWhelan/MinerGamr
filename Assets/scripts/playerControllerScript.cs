@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class playerControllerScript : MonoBehaviour
@@ -34,7 +35,7 @@ public class playerControllerScript : MonoBehaviour
             Jump();
 
         if (Data.dashInput == true)
-            Dash();
+            StartCoroutine(Dash());
 
         if (Data.throwInput == true)
             ThrowExplosive();
@@ -63,11 +64,14 @@ public class playerControllerScript : MonoBehaviour
         if (Data.jumpBuffer > 0 && Data.coyoteTime > 0 && playerBody.linearVelocity.y <= 0.1f)
             Data.jumpState = true; //If the player isn't already moving upwards and they haven't pressed the jump button too early or too late, the player jumps.
 
-        if (Input.GetKeyDown(KeyCode.LeftShift))
+        if (Input.GetKeyDown(KeyCode.LeftShift) && Data.canDash == false)
+        {
+            Debug.Log("call dash");
             Data.dashInput = true; //If the player clicks leftShift they dash
+        }
 
         if (Input.GetKeyDown(KeyCode.Mouse0))
-            Data.throwInput = true; //If the player leftClicks they throw an explosive
+                Data.throwInput = true; //If the player leftClicks they throw an explosive
 
         if (Input.GetKeyDown(KeyCode.Mouse1))
             Data.explosionInput = true; //if the player RightClicks they attempt to explode an explosive
@@ -124,6 +128,9 @@ public class playerControllerScript : MonoBehaviour
         else if (playerBody.linearVelocity.y < -0.5) //checks if the player is falling
             Data.gravityScale = Data.FallGravMulti; //sets gravity to a falling value
 
+        else if (Data.isDashing && playerBody.linearVelocity.y < 0.5)
+            Data.gravityScale = 0;
+
         else
             Data.gravityScale = 1; //resets the value of gravity inbetween falling states
 
@@ -178,7 +185,8 @@ public class playerControllerScript : MonoBehaviour
 
         playerBody.AddForce(Vector3.up * force, ForceMode.Impulse); //applies the force to the player as an impulse
     }
-    private void Dash()
+
+    private IEnumerator Dash()
     {
         /*
         Player dashes forward.
@@ -186,8 +194,16 @@ public class playerControllerScript : MonoBehaviour
         'returns':
             str: a "dashed" msg
         */
-        Debug.Log("Dashed");
+        Debug.Log("dash");
         Data.dashInput = false;
+        Data.canDash = true;
+        Data.isDashing = true;
+        Vector3 dashDirection = transform.forward;
+        playerBody.linearVelocity = dashDirection.normalized * Data.dashForce;
+        yield return new WaitForSeconds(Data.dashDuration);
+        Data.isDashing = false;
+        yield return new WaitForSeconds(Data.dashCooldown);
+        Data.canDash = false;
     } //player dashes
 
     private void ThrowExplosive()
@@ -226,7 +242,7 @@ public class playerControllerScript : MonoBehaviour
     }
     private void Unpause()
     {
-        Debug.Log("game unpaused"); //game is 'unpaused'
+        //Debug.Log("game unpaused"); //game is 'unpaused'
         Time.timeScale = 1f;
     }
 }

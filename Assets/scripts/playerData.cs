@@ -37,10 +37,13 @@ public class playerData : MonoBehaviour
     [HideInInspector]public float gravityScale;
 
     [HideInInspector] public bool dashInput;
-    [HideInInspector]public float dashForce; 
+     public bool canDash = true;
+    [HideInInspector] public bool isDashing = false;
+    [HideInInspector] public float dashForce;
     [Header("Dash")]   
-    public float dashDistance;
+    public float rawDashForce;
     public float dashDuration;
+    public float dashCooldown;
 
     [HideInInspector] public bool throwInput;
     [HideInInspector] public bool explosiveEntity;
@@ -61,7 +64,7 @@ public class playerData : MonoBehaviour
         gravityStrength = -(2 * jumpHeight) / (timeToApex * timeToApex); //a physics formula which established what the strength of gravity should be to allow the player to jump an entered height
         jumpForce = Mathf.Abs(gravityStrength) * timeToApex; //determins the amount of force required for the jump to reach the specified height that the specified rate
 
-        dashForce = (dashDistance * 50) / dashDuration;
+        dashForce = (rawDashForce * 50) / dashDuration;
 
     }
 }

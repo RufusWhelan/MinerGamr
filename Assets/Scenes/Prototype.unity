@@ -377,32 +377,35 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c96118665f7fb664087a9885ba48e234, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rawAccelaration: 1.4
-  accelAmount: 3.8888888
+  rawAccelaration: 1.6
+  accelAmount: 3.6363637
   rawDeccelaration: 1.6
-  deccelAmount: 4.4444447
-  topSpeed: 18
+  deccelAmount: 3.6363637
+  topSpeed: 22
   grounded: 0
   groundCheckDistance: 1.2
   jumps: 0
   jumpState: 0
-  jumpHeight: 3.75
-  timeToApex: 0.45
-  jumpForce: 16.666668
-  jumpHangTimeThreshold: 0.4
+  jumpHeight: 5
+  timeToApex: 0.5
+  jumpForce: 20
+  jumpHangTimeThreshold: 0.6
   jumpHangTimeMulti: 0.2
-  jumpCutGravMulti: 5
+  jumpCutGravMulti: 4
   FallGravMulti: 1.5
   coyoteTime: 0
   coyoteTimeCounter: 0.2
   jumpBuffer: 0
   jumpBufferCounter: 0.1
-  gravityStrength: -37.03704
+  gravityStrength: -40
   gravityScale: 0
   dashInput: 0
-  dashForce: 500
-  dashDistance: 5
+  canDash: 0
+  isDashing: 0
+  dashForce: 75
+  rawDashForce: 0.75
   dashDuration: 0.5
+  dashCooldown: 0.8
   throwInput: 0
   explosiveEntity: 0
   explosionInput: 0
@@ -803,7 +806,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 242422546}
-  distance: 15
+  distance: 16
   mouseSensitivity: 2.5
   smoothSpeed: 400
 --- !u!1 &832575517
