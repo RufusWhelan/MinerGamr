@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -28,9 +29,17 @@ public class AiControllerScript : MonoBehaviour
 
         public void Patrolling()
         {
-            
+
         }
-        
+        public void Chasing()
+        {
+
+        }
+        public void Attack()
+        {
+
+        }
+
     }
 
     private void Awake()
@@ -40,12 +49,23 @@ public class AiControllerScript : MonoBehaviour
     }
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+
+    }
+
+    public void triggerDeath()
+    {
+        StartCoroutine(Die());
+    }
+
+    private IEnumerator Die()
+    {
+        yield return new WaitForSeconds(0.7f);
+        Destroy(gameObject);
     }
 }

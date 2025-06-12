@@ -40,8 +40,6 @@ public class playerControllerScript : MonoBehaviour
         if (Data.throwInput == true)
             ThrowExplosive();
 
-        if (Data.explosionInput == true)
-            ExplodeExplosive();
 
         //if the input for an action has been entered, trigger the corresponding action.
     }
@@ -207,7 +205,7 @@ public class playerControllerScript : MonoBehaviour
     } //player dashes
 
     private void ThrowExplosive()
-    {
+    { 
         /*
         Spawns an Explosive.
 
@@ -219,21 +217,6 @@ public class playerControllerScript : MonoBehaviour
         Debug.Log("Thrown");
     }
 
-    private void ExplodeExplosive()
-    {
-        /*
-        Explodes the explosive spawned by throw explosive.
-
-        'returns':
-            str: an 'exploded' msg 
-        */
-        Data.explosionInput = false; //stop registering input on the first frame this function is called
-        if (Data.explosiveEntity == true) //checks if there is an entity to explode
-        {
-            Data.explosiveEntity = false;
-            Debug.Log("exploded");
-        } //explodes and removes said entity
-    }
 
     private void Pause()
     {
