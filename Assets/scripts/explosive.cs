@@ -4,15 +4,18 @@ using UnityEngine;
 public class explosive : MonoBehaviour
 {
     public playerData Data;
-    [SerializeField] private float explosiveRadius;
     [SerializeField] private float rawExplosionForce;
     private float explosionForce;
     [SerializeField] private float explosionRadius;
+    [SerializeField] private float rawLaunchPower;
+    private float launchPower;
+    [SerializeField] private float launchAngle;
 
 
     private void OnValidate()
     {
         explosionForce = rawExplosionForce * 50;
+        launchPower = rawLaunchPower * 50;
     }
 
     void FixedUpdate()
@@ -74,9 +77,17 @@ public class explosive : MonoBehaviour
 
                 rb.AddExplosionForce(force, transform.position, explosionRadius);
                 if (rb.gameObject.CompareTag("Enemy"))
-                    Destroy(rb.gameObject);
+                {
+                    var enemy = rb.GetComponent<AiControllerScript>(); 
+                    enemy.triggerDeath();
+                }
             }
-
+            if (rb != null && rb.gameObject.CompareTag("Player"))
+            {
+                float angleRad = Mathf.Deg2Rad * launchAngle;
+                Vector3 launchDirection = new Vector3(Mathf.Cos(angleRad), Mathf.Sin(angleRad), 0).normalized;
+                rb.AddForce(launchDirection * launchPower, ForceMode.Impulse);
+            }
         }
         Destroy(gameObject);
     }
