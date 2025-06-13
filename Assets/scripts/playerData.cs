@@ -1,6 +1,8 @@
 using UnityEngine;
+using Unity.Mathematics;
 public class playerData : MonoBehaviour
 {
+    [HideInInspector] public Vector3 playerMovementInput;
     [Header("Run")]
     public float rawAccelaration;
     [HideInInspector] public float accelAmount;

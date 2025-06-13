@@ -1,4 +1,5 @@
 using System.Collections;
+using System.ComponentModel;
 using UnityEngine;
 
 public class explosive : MonoBehaviour
@@ -63,6 +64,12 @@ public class explosive : MonoBehaviour
 
     private void playerExplode()
     {
+        Rigidbody myRb = GetComponent<Rigidbody>();
+    if (myRb != null)
+        Destroy(myRb);
+        GetComponent<Collider>().enabled = false;
+
+
         Collider[] colliders = Physics.OverlapSphere(transform.position, explosionRadius);
         foreach (Collider nearbyObject in colliders)
         {
@@ -85,7 +92,11 @@ public class explosive : MonoBehaviour
             if (rb != null && rb.gameObject.CompareTag("Player"))
             {
                 float angleRad = Mathf.Deg2Rad * launchAngle;
-                Vector3 launchDirection = new Vector3(Mathf.Cos(angleRad), Mathf.Sin(angleRad), 0).normalized;
+                Vector3 launchDirection = new Vector3(Mathf.Cos(angleRad), Mathf.Sin(angleRad)).normalized;
+                Vector3 movement = new Vector3(Data.playerMovementInput.x, 0, Data.playerMovementInput.y).normalized;
+                launchDirection.x =  launchDirection.x * movement.x;
+                if (Data.isDashing == true)
+                    launchPower = launchPower * 0.8f;
                 rb.AddForce(launchDirection * launchPower, ForceMode.Impulse);
             }
         }

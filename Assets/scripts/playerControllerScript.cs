@@ -6,7 +6,6 @@ public class playerControllerScript : MonoBehaviour
     public playerData Data;
     [SerializeField] private Rigidbody playerBody;
     [SerializeField] private Transform cameraTransform;
-    private Vector3 playerMovementInput;
     void Start()
     {
         playerBody.useGravity = false;
@@ -53,8 +52,8 @@ public class playerControllerScript : MonoBehaviour
             bools: player input values 
 
         */
-        playerMovementInput = new Vector3(Input.GetAxisRaw("Horizontal"), 0f, Input.GetAxisRaw("Vertical")); //gets the users WASD input and turns it into a useable vector
-        if (playerMovementInput.magnitude > 1) playerMovementInput.Normalize(); //normalises player input to prevent the player from travelling faster diagonally.
+        Data.playerMovementInput = new Vector3(Input.GetAxisRaw("Horizontal"), 0f, Input.GetAxisRaw("Vertical")); //gets the users WASD input and turns it into a useable vector
+        if (Data.playerMovementInput.magnitude > 1) Data.playerMovementInput.Normalize(); //normalises player input to prevent the player from travelling faster diagonally.
 
         if (Input.GetKeyDown(KeyCode.Space))
             Data.jumpBuffer = Data.jumpBufferCounter; //gives the player a short moment where they can press the jump button before they are on the ground. They will jump the first frame they are touching the ground again.
@@ -146,7 +145,7 @@ public class playerControllerScript : MonoBehaviour
         'returns':
             Vector3: updated player position on the X and Z axes
         */
-        Vector3 moveVector = transform.TransformDirection(playerMovementInput); //makes the WASD vector relative to the direction the player is facing
+        Vector3 moveVector = transform.TransformDirection(Data.playerMovementInput); //makes the WASD vector relative to the direction the player is facing
         Vector3 targetSpeed = new Vector3(moveVector.x * Data.topSpeed, 0f, moveVector.z * Data.topSpeed); //ensures that the users target speed is the correct sign
 
         Vector3 accelRate;
