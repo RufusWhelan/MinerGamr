@@ -8,6 +8,8 @@ public class AiControllerScript : MonoBehaviour
     public NavMeshAgent agent;
     public Transform player;
     public LayerMask groundLayer, playerLayer;
+    
+    [System.Serializable]
     public class AiController
     {
         public Vector3 walkPoint;
@@ -24,8 +26,8 @@ public class AiControllerScript : MonoBehaviour
             damageRange = damRge;
             playerSeen = seen;
             playerInDamageRange = inDamRge;
-
         }
+
 
         public void Patrolling()
         {
@@ -41,6 +43,8 @@ public class AiControllerScript : MonoBehaviour
         }
 
     }
+    public AiController enemyInstance = new AiController(new Vector3(0, 0, 0), false, 0f, 0f, 0f, false, false);
+
 
     private void Awake()
     {

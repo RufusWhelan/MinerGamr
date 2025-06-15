@@ -15,7 +15,8 @@ GameObject:
   - component: {fileID: 1566852304857013722}
   - component: {fileID: 4993019959846692787}
   - component: {fileID: 7411136000838605345}
-  m_Layer: 0
+  - component: {fileID: 4878511170263703342}
+  m_Layer: 6
   m_Name: Player
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -204,6 +205,18 @@ MonoBehaviour:
   Data: {fileID: 4993019959846692787}
   playerBody: {fileID: 1566852304857013722}
   cameraTransform: {fileID: 0}
+--- !u!114 &4878511170263703342
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5425823004080566921}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2a5602d30ca620f4bb93454628667d28, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &6586564262079855853
 GameObject:
   m_ObjectHideFlags: 0
@@ -213,7 +226,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3483637379042480261}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: throwPosition
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -229,7 +242,7 @@ Transform:
   m_GameObject: {fileID: 6586564262079855853}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.6, y: 0, z: -0.1}
+  m_LocalPosition: {x: 0, y: 0.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

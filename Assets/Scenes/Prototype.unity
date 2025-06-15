@@ -242,7 +242,7 @@ GameObject:
   - component: {fileID: 89679117}
   - component: {fileID: 89679122}
   m_Layer: 0
-  m_Name: Sphere
+  m_Name: Enemy
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -261,13 +261,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   agent: {fileID: 0}
-  player: {fileID: 0}
+  player: {fileID: 242422546}
   groundLayer:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 8
   playerLayer:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 64
+  enemyInstance:
+    walkPoint: {x: 0, y: 0, z: 0}
+    walkPointSet: 0
+    walkPointRange: 0
+    fieldOfView: 0
+    damageRange: 0
+    playerSeen: 0
+    playerInDamageRange: 0
 --- !u!135 &89679118
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -351,7 +359,7 @@ Transform:
   m_GameObject: {fileID: 89679116}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 6.03, y: 0.99, z: -0.71}
+  m_LocalPosition: {x: -2.17, y: 0.99, z: -0.71}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -773,6 +781,8 @@ MonoBehaviour:
   distance: 16
   mouseSensitivity: 2.5
   smoothSpeed: 400
+  yaw: 0
+  pitch: 0
 --- !u!1 &832575517
 GameObject:
   m_ObjectHideFlags: 0
@@ -978,18 +988,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3483637379042480261, guid: 66adb5cbeeebecf4397babeb2f4a1870, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3483637379042480261, guid: 66adb5cbeeebecf4397babeb2f4a1870, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 3483637379042480261, guid: 66adb5cbeeebecf4397babeb2f4a1870, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
+    - target: {fileID: 4878511170263703342, guid: 66adb5cbeeebecf4397babeb2f4a1870, type: 3}
+      propertyPath: camScript
+      value: 
+      objectReference: {fileID: 771861680}
     - target: {fileID: 5425823004080566921, guid: 66adb5cbeeebecf4397babeb2f4a1870, type: 3}
       propertyPath: m_Name
       value: Player
