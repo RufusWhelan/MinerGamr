@@ -47,6 +47,11 @@ public class playerData : MonoBehaviour
     public float dashDuration;
     public float dashCooldown;
 
+    [Header("Explosive")]
+    public GameObject explodivePrefab;
+    public float throwForce;
+    public Transform throwPosition;
+    [HideInInspector] public Vector3 throwDirection = new Vector3(0, 1, 0);
     [HideInInspector] public bool throwInput;
     [HideInInspector] public bool explosiveEntity;
     [HideInInspector] public bool explosionInput;

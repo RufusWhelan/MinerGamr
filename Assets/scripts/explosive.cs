@@ -1,5 +1,3 @@
-using System.Collections;
-using System.ComponentModel;
 using UnityEngine;
 
 public class explosive : MonoBehaviour
@@ -13,7 +11,7 @@ public class explosive : MonoBehaviour
     [SerializeField] private float launchAngle;
 
 
-    private void OnValidate()
+    private void Start()
     {
         explosionForce = rawExplosionForce * 50;
         launchPower = rawLaunchPower * 50;
@@ -23,8 +21,6 @@ public class explosive : MonoBehaviour
     {
         if (Data.explosionInput == true)
             Explode();
-
-
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -34,8 +30,14 @@ public class explosive : MonoBehaviour
 
         else if (collision.gameObject.CompareTag("Enemy"))
             Explode();
+            
+        else if (collision.gameObject.CompareTag("Ground")) // Add this condition
+        {
+            Rigidbody rb = GetComponent<Rigidbody>();
+            if (rb != null)
+                rb.constraints = RigidbodyConstraints.FreezeAll;
+        }
     }
-
     private void Explode()
     {
         Collider[] colliders = Physics.OverlapSphere(transform.position, explosionRadius);
@@ -80,7 +82,8 @@ public class explosive : MonoBehaviour
                 if (rb.linearVelocity.y < 0) //checks if player is travelling downwards when jump is pressed. If they are, extra force is added to the jump so the same distance is travelled.
                     force -= rb.linearVelocity.y;
                 if (rb.linearVelocity.y > 0) //checks if player is travelling downwards when jump is pressed. If they are, extra force is added to the jump so the same distance is travelled.
-                    force = force * 0.2f;
+                    force = force * 0.7f;
+                
 
                 rb.AddExplosionForce(force, transform.position, explosionRadius);
                 if (rb.gameObject.CompareTag("Enemy"))
@@ -97,6 +100,7 @@ public class explosive : MonoBehaviour
                 launchDirection.x =  launchDirection.x * movement.x;
                 if (Data.isDashing == true)
                     launchPower = launchPower * 0.8f;
+
                 rb.AddForce(launchDirection * launchPower, ForceMode.Impulse);
             }
         }

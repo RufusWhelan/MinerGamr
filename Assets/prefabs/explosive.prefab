@@ -134,9 +134,9 @@ Rigidbody:
   m_ImplicitTensor: 1
   m_UseGravity: 1
   m_IsKinematic: 0
-  m_Interpolate: 0
+  m_Interpolate: 1
   m_Constraints: 0
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
 --- !u!114 &7669933450645446125
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -149,8 +149,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 973a511b5cd84ff4c89d5e6eef2e1f8c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Data: {fileID: 0}
-  rawExplosionForce: 30
+  Data: {fileID: 4993019959846692787, guid: 66adb5cbeeebecf4397babeb2f4a1870, type: 3}
+  rawExplosionForce: 15
   explosionRadius: 6
   rawLaunchPower: 0.6
-  launchAngle: 20
+  launchAngle: 30

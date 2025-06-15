@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Data;
 using UnityEngine;
 
 public class playerControllerScript : MonoBehaviour
@@ -203,18 +204,36 @@ public class playerControllerScript : MonoBehaviour
         Data.canDash = false;
     } //player dashes
 
-    private void ThrowExplosive()
-    { 
-        /*
-        Spawns an Explosive.
+   private void ThrowExplosive()
+{
+    Data.throwInput = false;
 
-        'returns':
-            str: a 'Thrown' msg 
-        */
-        Data.throwInput = false; //stop registering input on the first frame this function is called
-        Data.explosiveEntity = true; //'spawns' an explosive entity
-        Debug.Log("Thrown");
+    Vector3 spawnPosition = Data.throwPosition.position + gameObject.transform.forward;
+    GameObject explosive = Instantiate(Data.explodivePrefab, spawnPosition, gameObject.transform.rotation);
+    // Spawns the explosive prefab to a position transform slightly infront of the player
+
+    Rigidbody explosiveRb = explosive.GetComponent<Rigidbody>();
+    float verticalArc = Data.throwDirection.y;
+    Vector3 arcDirection = new Vector3(gameObject.transform.forward.x, verticalArc, gameObject.transform.forward.z).normalized;
+
+    explosiveRb.AddForce(arcDirection * Data.throwForce, ForceMode.VelocityChange); // Applies arc force (for height and base distance)
+
+    
+    Vector3 flatForward = new Vector3(gameObject.transform.forward.x, 0f, gameObject.transform.forward.z).normalized;
+
+    float movementFactor = Mathf.Clamp01(Vector3.Dot(playerBody.linearVelocity.normalized, flatForward)); // scales throw based on movement direction
+
+    float extraFlatForce = Data.throwForce * 0.3f * movementFactor;
+
+    if (!Data.grounded)
+    {
+        extraFlatForce *= 1.35f; // Increase distance throw by 25% in air
     }
+
+    explosiveRb.AddForce(flatForward * extraFlatForce, ForceMode.VelocityChange);
+
+    explosive.GetComponent<explosive>().Data = Data; //assigns the playerData component to the Data referenced throughout this function on each individual explosive spawned
+}
 
 
     private void Pause()
