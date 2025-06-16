@@ -1,5 +1,4 @@
 using System.Collections;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -7,7 +6,7 @@ public class AiControllerScript : MonoBehaviour
 {
     public AiController enemyInstance;
     public GameObject itself;
-    public  NavMeshAgent agent;
+    public NavMeshAgent agent;
     public Transform player;
     public LayerMask groundMask, playerMask;
 
@@ -23,8 +22,9 @@ public class AiControllerScript : MonoBehaviour
         private float walkPointRange;
         public float fieldOfView, damageRange;
         [HideInInspector] public bool playerSeen, playerInDamageRange, damage, attacked;
+        public float timeBetweenAttacks;
 
-        public AiController(GameObject ownerObj, NavMeshAgent finder, Transform pos, LayerMask ground, LayerMask player, Vector3 point, bool pointSet, float pointRge, float FOV, float damRge, bool seen, bool inDamRge, bool dam, bool atkd)
+        public AiController(GameObject ownerObj, NavMeshAgent finder, Transform pos, LayerMask ground, LayerMask player, Vector3 point, bool pointSet, float pointRge, float FOV, float damRge, bool seen, bool inDamRge, bool dam, bool atkd, float btwAtk)
         {
             owner = ownerObj;
             pathFinder = finder;
@@ -41,6 +41,7 @@ public class AiControllerScript : MonoBehaviour
             playerInDamageRange = inDamRge;
             damage = dam;
             attacked = atkd;
+            timeBetweenAttacks = btwAtk;
         }
 
         public void SearchWalkpoint()
@@ -71,13 +72,14 @@ public class AiControllerScript : MonoBehaviour
         {
             pathFinder.SetDestination(playerPos.position);
         }
-        public void Attack()
+        public void Attack(System.Action resetAttackCallback)
         {
             owner.transform.LookAt(playerPos);
             if (!attacked)
             {
                 attacked = true;
                 damage = true;
+                resetAttackCallback?.Invoke();
             }
         }
 
@@ -94,7 +96,7 @@ public class AiControllerScript : MonoBehaviour
         player = GameObject.Find("Player").transform;
         agent = GetComponent<NavMeshAgent>();
 
-        enemyInstance = new AiController(gameObject, agent, player, groundMask, playerMask, new Vector3(0, 0, 0), false, 0f, 0f, 0f, false, false, false, false);
+        enemyInstance = new AiController(gameObject, agent, player, groundMask, playerMask, new Vector3(0, 0, 0), false, 0f, 0f, 0f, false, false, false, false, 1f);
     }
     void Start()
     {
@@ -116,7 +118,8 @@ public class AiControllerScript : MonoBehaviour
 
         if (enemyInstance.playerSeen && !enemyInstance.playerInDamageRange) enemyInstance.Chase();
 
-        if (enemyInstance.playerSeen && enemyInstance.playerInDamageRange) enemyInstance.Attack();
+        if (enemyInstance.playerSeen && enemyInstance.playerInDamageRange)
+        enemyInstance.Attack(() => StartCoroutine(ResetAttackCoroutine(enemyInstance.timeBetweenAttacks)));
     }
 
     public void triggerDeath()
@@ -129,4 +132,9 @@ public class AiControllerScript : MonoBehaviour
         yield return new WaitForSeconds(0.7f);
         Destroy(gameObject);
     }
+    private IEnumerator ResetAttackCoroutine(float delay)
+{
+    yield return new WaitForSeconds(delay);
+    enemyInstance.attacked = false;
+}
 }

@@ -22,7 +22,7 @@ public class explosive : MonoBehaviour
     {
         if (Data.explosionInput == true)
         {
-            Data.explosionInput =false;
+            Data.explosionInput = false;
             if (explodable)
                 Explode();
         }
@@ -42,6 +42,7 @@ public class explosive : MonoBehaviour
             Rigidbody rb = GetComponent<Rigidbody>();
             if (rb != null)
                 rb.constraints = RigidbodyConstraints.FreezeAll;
+            Data.cantThrow = false;
         }
 
         else
@@ -62,6 +63,7 @@ public class explosive : MonoBehaviour
                     force = force * 0.2f;
 
                 rb.AddExplosionForce(force, transform.position, explosionRadius);
+                rb.AddForce(Vector3.up * 12f, ForceMode.VelocityChange);
 
                 if (rb.gameObject.CompareTag("Enemy"))
                 {
@@ -75,6 +77,7 @@ public class explosive : MonoBehaviour
 
     private void playerExplode()
     {
+        Data.cantThrow = false;
         Rigidbody myRb = GetComponent<Rigidbody>();
         if (myRb != null)
         {
@@ -97,22 +100,35 @@ public class explosive : MonoBehaviour
                 
 
                 rb.AddExplosionForce(force, transform.position, explosionRadius);
+                rb.AddForce(Vector3.up * 12f, ForceMode.VelocityChange);
+
                 if (rb.gameObject.CompareTag("Enemy"))
                 {
-                    var enemy = rb.GetComponent<AiControllerScript>(); 
+                    var enemy = rb.GetComponent<AiControllerScript>();
                     enemy.triggerDeath();
                 }
             }
             if (rb != null && rb.gameObject.CompareTag("Player"))
             {
                 float angleRad = Mathf.Deg2Rad * launchAngle;
-                Vector3 launchDirection = new Vector3(Mathf.Cos(angleRad), Mathf.Sin(angleRad)).normalized;
-                Vector3 movement = new Vector3(Data.playerMovementInput.x, 0, Data.playerMovementInput.y).normalized;
-                launchDirection.x =  launchDirection.x * movement.x;
-                if (Data.isDashing == true)
-                    launchPower = launchPower * 0.8f;
 
-                rb.AddForce(launchDirection * launchPower, ForceMode.Impulse);
+                // Calculate the forward direction the player is facing
+                Vector3 flatForward = rb.transform.forward;
+                flatForward.y = 0f;
+                flatForward.Normalize();
+
+                // Upward component from angle
+                float yComponent = Mathf.Sin(angleRad);
+                float horizontalComponent = Mathf.Cos(angleRad);
+
+                // Final launch direction — in the direction the player is facing, angled upward
+                Vector3 launchDirection = (flatForward * horizontalComponent + Vector3.up * yComponent).normalized;
+
+                float finalPower = launchPower;
+                if (Data.isDashing)
+                    finalPower *= 0.8f;
+
+                rb.AddForce(launchDirection * finalPower, ForceMode.VelocityChange);
             }
         }
         Destroy(gameObject);

@@ -150,7 +150,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Data: {fileID: 4993019959846692787, guid: 66adb5cbeeebecf4397babeb2f4a1870, type: 3}
-  rawExplosionForce: 15
+  rawExplosionForce: 40
   explosionRadius: 6
-  rawLaunchPower: 0.6
-  launchAngle: 30
+  rawLaunchPower: 0.85
+  launchAngle: 10

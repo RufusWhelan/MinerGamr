@@ -10,6 +10,7 @@ public class playerControllerScript : MonoBehaviour
     void Start()
     {
         playerBody.useGravity = false;
+        Cursor.lockState = CursorLockMode.Locked;
     }
 
     // Update is called once per frame
@@ -68,7 +69,7 @@ public class playerControllerScript : MonoBehaviour
             Data.dashInput = true; //If the player clicks leftShift they dash
         }
 
-        if (Input.GetKeyDown(KeyCode.Mouse0))
+        if (Input.GetKeyDown(KeyCode.Mouse0) && Data.cantThrow == false)
                 Data.throwInput = true; //If the player leftClicks they throw an explosive
 
         if (Input.GetKeyDown(KeyCode.Mouse1))
@@ -205,35 +206,36 @@ public class playerControllerScript : MonoBehaviour
     } //player dashes
 
    private void ThrowExplosive()
-{
-    Data.throwInput = false;
-
-    Vector3 spawnPosition = Data.throwPosition.position + gameObject.transform.forward;
-    GameObject explosive = Instantiate(Data.explodivePrefab, spawnPosition, gameObject.transform.rotation);
-    // Spawns the explosive prefab to a position transform slightly infront of the player
-
-    Rigidbody explosiveRb = explosive.GetComponent<Rigidbody>();
-    float verticalArc = Data.throwDirection.y;
-    Vector3 arcDirection = new Vector3(gameObject.transform.forward.x, verticalArc, gameObject.transform.forward.z).normalized;
-
-    explosiveRb.AddForce(arcDirection * Data.throwForce, ForceMode.VelocityChange); // Applies arc force (for height and base distance)
-
-    
-    Vector3 flatForward = new Vector3(gameObject.transform.forward.x, 0f, gameObject.transform.forward.z).normalized;
-
-    float movementFactor = Mathf.Clamp01(Vector3.Dot(playerBody.linearVelocity.normalized, flatForward)); // scales throw based on movement direction
-
-    float extraFlatForce = Data.throwForce * 0.3f * movementFactor;
-
-    if (!Data.grounded)
     {
-        extraFlatForce *= 1.35f; // Increase distance throw by 25% in air
+        Data.cantThrow = true;
+        Data.throwInput = false;
+        GameObject existingExplosive = GameObject.FindWithTag("CurrentExplosive");
+        if (existingExplosive != null)
+        {
+            Destroy(existingExplosive);
+        }
+
+
+        Vector3 spawnPosition = Data.throwPosition.position + gameObject.transform.forward;
+        GameObject explosive = Instantiate(Data.explosivePrefab, spawnPosition, gameObject.transform.rotation);
+        
+        explosive.tag = "CurrentExplosive"; 
+        // Spawns the explosive prefab to a position transform slightly infront of the player
+
+            Rigidbody explosiveRb = explosive.GetComponent<Rigidbody>();
+        float verticalArc = Data.throwDirection.y;
+        Vector3 arcDirection = new Vector3(gameObject.transform.forward.x, verticalArc, gameObject.transform.forward.z).normalized;
+
+        explosiveRb.AddForce(arcDirection * Data.throwForce + playerBody.linearVelocity, ForceMode.VelocityChange); // Applies arc force (for height and base distance)
+
+        
+        Vector3 flatForward = new Vector3(gameObject.transform.forward.x, 0f, gameObject.transform.forward.z).normalized;
+
+
+        explosiveRb.AddForce(flatForward, ForceMode.VelocityChange);
+
+        explosive.GetComponent<explosive>().Data = Data; //assigns the playerData component to the Data referenced throughout this function on each individual explosive spawned
     }
-
-    explosiveRb.AddForce(flatForward * extraFlatForce, ForceMode.VelocityChange);
-
-    explosive.GetComponent<explosive>().Data = Data; //assigns the playerData component to the Data referenced throughout this function on each individual explosive spawned
-}
 
 
     private void Pause()

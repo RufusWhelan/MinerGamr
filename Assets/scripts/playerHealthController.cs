@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class playerHealthController : MonoBehaviour
 {
+    public AiControllerScript Ai;
     public camScript camScript;
 
     [System.Serializable]
@@ -35,9 +36,10 @@ public class playerHealthController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.K))
+        if (Ai.enemyInstance.damage == true)
         {
             player.takeDamage();
+            Ai.enemyInstance.damage = false;
         }
         HandleDeath();
     }

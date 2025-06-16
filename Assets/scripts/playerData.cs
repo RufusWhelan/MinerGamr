@@ -48,13 +48,16 @@ public class playerData : MonoBehaviour
     public float dashCooldown;
 
     [Header("Explosive")]
-    public GameObject explodivePrefab;
+    public GameObject explosivePrefab;
     public float throwForce;
+    public bool cantThrow = false;
     public Transform throwPosition;
     [HideInInspector] public Vector3 throwDirection = new Vector3(0, 1, 0);
     [HideInInspector] public bool throwInput;
     [HideInInspector] public bool explosiveEntity;
     [HideInInspector] public bool explosionInput;
+    [HideInInspector] public float numberOfExplosives;
+    [HideInInspector] public float maximumNumberOfExplosives;
 
     [HideInInspector] public bool pause;
     private void OnValidate()
