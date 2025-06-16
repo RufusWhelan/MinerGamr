@@ -3,6 +3,7 @@ using UnityEngine;
 public class explosive : MonoBehaviour
 {
     public playerData Data;
+    private bool explodable;
     [SerializeField] private float rawExplosionForce;
     private float explosionForce;
     [SerializeField] private float explosionRadius;
@@ -20,7 +21,11 @@ public class explosive : MonoBehaviour
     void FixedUpdate()
     {
         if (Data.explosionInput == true)
-            Explode();
+        {
+            Data.explosionInput =false;
+            if (explodable)
+                Explode();
+        }
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -30,13 +35,17 @@ public class explosive : MonoBehaviour
 
         else if (collision.gameObject.CompareTag("Enemy"))
             Explode();
-            
+
         else if (collision.gameObject.CompareTag("Ground")) // Add this condition
         {
+            explodable = true;
             Rigidbody rb = GetComponent<Rigidbody>();
             if (rb != null)
                 rb.constraints = RigidbodyConstraints.FreezeAll;
         }
+
+        else
+            explodable = false;
     }
     private void Explode()
     {
@@ -67,9 +76,11 @@ public class explosive : MonoBehaviour
     private void playerExplode()
     {
         Rigidbody myRb = GetComponent<Rigidbody>();
-    if (myRb != null)
-        Destroy(myRb);
-        GetComponent<Collider>().enabled = false;
+        if (myRb != null)
+        {
+            Destroy(myRb);
+            GetComponent<Collider>().enabled = false;
+        }
 
 
         Collider[] colliders = Physics.OverlapSphere(transform.position, explosionRadius);

@@ -1,55 +1,100 @@
-using System;
 using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 
 public class AiControllerScript : MonoBehaviour
 {
-    public NavMeshAgent agent;
+    public AiController enemyInstance;
+    public GameObject itself;
+    public  NavMeshAgent agent;
     public Transform player;
-    public LayerMask groundLayer, playerLayer;
-    
+    public LayerMask groundMask, playerMask;
+
     [System.Serializable]
     public class AiController
     {
+        private GameObject owner;
+        private NavMeshAgent pathFinder;
+        private Transform playerPos;
+        private LayerMask groundLayer, playerLayer;
         public Vector3 walkPoint;
-        public bool walkPointSet;
-        public float walkPointRange;
+        private bool walkPointSet;
+        private float walkPointRange;
         public float fieldOfView, damageRange;
-        public bool playerSeen, playerInDamageRange;
-        public AiController(Vector3 point, bool pointSet, float pointRge, float FOV, float damRge, bool seen, bool inDamRge)
+        [HideInInspector] public bool playerSeen, playerInDamageRange, damage, attacked;
+
+        public AiController(GameObject ownerObj, NavMeshAgent finder, Transform pos, LayerMask ground, LayerMask player, Vector3 point, bool pointSet, float pointRge, float FOV, float damRge, bool seen, bool inDamRge, bool dam, bool atkd)
         {
+            owner = ownerObj;
+            pathFinder = finder;
+            playerPos = pos;
+            groundLayer = ground;
+            playerLayer = player;
             walkPoint = point;
             walkPointSet = pointSet;
+            pathFinder = finder;
             walkPointRange = pointRge;
             fieldOfView = FOV;
             damageRange = damRge;
             playerSeen = seen;
             playerInDamageRange = inDamRge;
+            damage = dam;
+            attacked = atkd;
         }
 
+        public void SearchWalkpoint()
+        {
+            float randomZ = Random.Range(-walkPointRange, walkPointRange);
+            float randomX = Random.Range(-walkPointRange, walkPointRange);
+            walkPoint = new Vector3(owner.transform.position.x + randomX, owner.transform.position.y, owner.transform.position.z + randomZ);
+
+            if (Physics.Raycast(walkPoint, -owner.transform.up, 2f, groundLayer))
+                walkPointSet = true;
+        }
 
         public void Patrolling()
         {
+            if (!walkPointSet) SearchWalkpoint();
+
+            if (walkPointSet)
+                pathFinder.SetDestination(walkPoint);
+
+            Vector3 distanceToWalkpoint = owner.transform.position - walkPoint;
+
+            if (distanceToWalkpoint.magnitude < 1f)
+                walkPointSet = false;
 
         }
-        public void Chasing()
-        {
 
+        public void Chase()
+        {
+            pathFinder.SetDestination(playerPos.position);
         }
         public void Attack()
         {
+            owner.transform.LookAt(playerPos);
+            if (!attacked)
+            {
+                attacked = true;
+                damage = true;
+            }
+        }
 
+        private void ResetAttack()
+        {
+            attacked = false;
         }
 
     }
-    public AiController enemyInstance = new AiController(new Vector3(0, 0, 0), false, 0f, 0f, 0f, false, false);
 
 
     private void Awake()
     {
         player = GameObject.Find("Player").transform;
         agent = GetComponent<NavMeshAgent>();
+
+        enemyInstance = new AiController(gameObject, agent, player, groundMask, playerMask, new Vector3(0, 0, 0), false, 0f, 0f, 0f, false, false, false, false);
     }
     void Start()
     {
@@ -60,6 +105,18 @@ public class AiControllerScript : MonoBehaviour
     void Update()
     {
 
+    }
+
+    void FixedUpdate()
+    {
+        enemyInstance.playerSeen = Physics.CheckSphere(transform.position, enemyInstance.fieldOfView, playerMask);
+        enemyInstance.playerInDamageRange = Physics.CheckSphere(transform.position, enemyInstance.damageRange, playerMask);
+
+        if (!enemyInstance.playerSeen && !enemyInstance.playerInDamageRange) enemyInstance.Patrolling();
+
+        if (enemyInstance.playerSeen && !enemyInstance.playerInDamageRange) enemyInstance.Chase();
+
+        if (enemyInstance.playerSeen && enemyInstance.playerInDamageRange) enemyInstance.Attack();
     }
 
     public void triggerDeath()
