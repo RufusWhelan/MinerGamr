@@ -4,137 +4,162 @@ using UnityEngine.AI;
 
 public class AiControllerScript : MonoBehaviour
 {
-    public AiController enemyInstance;
-    public GameObject itself;
-    public NavMeshAgent agent;
-    public Transform player;
-    public LayerMask groundMask, playerMask;
+    [SerializeField] private NavMeshAgent navAgent;
+    [SerializeField] private Transform playerTarget;
+    [SerializeField] private Rigidbody aiBody;
+    [SerializeField] private LayerMask groundLayer;
+    [SerializeField] private LayerMask targetLayer;
+    [SerializeField] private float patrolRange = 10f;
+    [SerializeField] private float attackCooldown = 1f;
+    [SerializeField] private float viewRange = 15f;
+    [SerializeField] private float meleeRange = 2f;
+    [SerializeField] private float knockbackForce = 10f;
 
-    [System.Serializable]
-    public class AiController
-    {
-        private GameObject owner;
-        private NavMeshAgent pathFinder;
-        private Transform playerPos;
-        private LayerMask groundLayer, playerLayer;
-        public Vector3 walkPoint;
-        private bool walkPointSet;
-        private float walkPointRange;
-        public float fieldOfView, damageRange;
-        [HideInInspector] public bool playerSeen, playerInDamageRange, damage, attacked;
-        public float timeBetweenAttacks;
-
-        public AiController(GameObject ownerObj, NavMeshAgent finder, Transform pos, LayerMask ground, LayerMask player, Vector3 point, bool pointSet, float pointRge, float FOV, float damRge, bool seen, bool inDamRge, bool dam, bool atkd, float btwAtk)
-        {
-            owner = ownerObj;
-            pathFinder = finder;
-            playerPos = pos;
-            groundLayer = ground;
-            playerLayer = player;
-            walkPoint = point;
-            walkPointSet = pointSet;
-            pathFinder = finder;
-            walkPointRange = pointRge;
-            fieldOfView = FOV;
-            damageRange = damRge;
-            playerSeen = seen;
-            playerInDamageRange = inDamRge;
-            damage = dam;
-            attacked = atkd;
-            timeBetweenAttacks = btwAtk;
-        }
-
-        public void SearchWalkpoint()
-        {
-            float randomZ = Random.Range(-walkPointRange, walkPointRange);
-            float randomX = Random.Range(-walkPointRange, walkPointRange);
-            walkPoint = new Vector3(owner.transform.position.x + randomX, owner.transform.position.y, owner.transform.position.z + randomZ);
-
-            if (Physics.Raycast(walkPoint, -owner.transform.up, 2f, groundLayer))
-                walkPointSet = true;
-        }
-
-        public void Patrolling()
-        {
-            if (!walkPointSet) SearchWalkpoint();
-
-            if (walkPointSet)
-                pathFinder.SetDestination(walkPoint);
-
-            Vector3 distanceToWalkpoint = owner.transform.position - walkPoint;
-
-            if (distanceToWalkpoint.magnitude < 1f)
-                walkPointSet = false;
-
-        }
-
-        public void Chase()
-        {
-            pathFinder.SetDestination(playerPos.position);
-        }
-        public void Attack(System.Action resetAttackCallback)
-        {
-            owner.transform.LookAt(playerPos);
-            if (!attacked)
-            {
-                attacked = true;
-                damage = true;
-                resetAttackCallback?.Invoke();
-            }
-        }
-
-        private void ResetAttack()
-        {
-            attacked = false;
-        }
-
-    }
-
+    public Ai enemy;
 
     private void Awake()
     {
-        player = GameObject.Find("Player").transform;
-        agent = GetComponent<NavMeshAgent>();
+        playerTarget = GameObject.Find("Player").transform;
+        navAgent = GetComponent<NavMeshAgent>();
 
-        enemyInstance = new AiController(gameObject, agent, player, groundMask, playerMask, new Vector3(0, 0, 0), false, 0f, 0f, 0f, false, false, false, false, 1f);
-    }
-    void Start()
-    {
-
+        enemy = new Ai(navAgent, playerTarget, aiBody, transform, groundLayer, targetLayer,patrolRange, attackCooldown, viewRange, meleeRange, knockbackForce, () => StartCoroutine(ResetAttackCooldown(attackCooldown)));
     }
 
-    // Update is called once per frame
-    void Update()
+    private void FixedUpdate()
     {
-
-    }
-
-    void FixedUpdate()
-    {
-        enemyInstance.playerSeen = Physics.CheckSphere(transform.position, enemyInstance.fieldOfView, playerMask);
-        enemyInstance.playerInDamageRange = Physics.CheckSphere(transform.position, enemyInstance.damageRange, playerMask);
-
-        if (!enemyInstance.playerSeen && !enemyInstance.playerInDamageRange) enemyInstance.Patrolling();
-
-        if (enemyInstance.playerSeen && !enemyInstance.playerInDamageRange) enemyInstance.Chase();
-
-        if (enemyInstance.playerSeen && enemyInstance.playerInDamageRange)
-        enemyInstance.Attack(() => StartCoroutine(ResetAttackCoroutine(enemyInstance.timeBetweenAttacks)));
+        enemy.Tick();
     }
 
     public void triggerDeath()
     {
-        StartCoroutine(Die());
+        StartCoroutine(enemy.Die());
     }
 
-    private IEnumerator Die()
+    private IEnumerator ResetAttackCooldown(float delay)
     {
-        yield return new WaitForSeconds(0.7f);
-        Destroy(gameObject);
+        yield return new WaitForSeconds(delay);
+        enemy.ResetAttack();
     }
-    private IEnumerator ResetAttackCoroutine(float delay)
-{
-    yield return new WaitForSeconds(delay);
-    enemyInstance.attacked = false;
 }
+
+[System.Serializable]
+public class Ai
+{
+    private NavMeshAgent agent;
+    private Transform player;
+    private Rigidbody rigidbody;
+    private Transform self;
+    private LayerMask groundMask;
+    private LayerMask playerMask;
+    private float patrolRadius;
+    private float attackDelay;
+    private float visionRange;
+    private float hitRange;
+    private float recoilForce;
+
+    private Vector3 patrolTarget;
+    private bool hasPatrolTarget;
+    private bool hasAttacked;
+    private bool canSeePlayer;
+    private bool canHitPlayer;
+
+    private System.Action onAttackReset;
+
+    public Ai(NavMeshAgent agent, Transform player, Rigidbody rigidbody, Transform self, LayerMask groundMask, LayerMask playerMask, float patrolRadius, float attackDelay, float visionRange, float hitRange, float recoilForce, System.Action onAttackReset
+    )
+    {
+        this.agent = agent;
+        this.player = player;
+        this.rigidbody = rigidbody;
+        this.self = self;
+        this.groundMask = groundMask;
+        this.playerMask = playerMask;
+        this.patrolRadius = patrolRadius;
+        this.attackDelay = attackDelay;
+        this.visionRange = visionRange;
+        this.hitRange = hitRange;
+        this.recoilForce = recoilForce;
+        this.onAttackReset = onAttackReset;
+    }
+
+    public void Tick()
+    {
+        if (!agent.enabled)
+            return;
+
+        canSeePlayer = Physics.CheckSphere(self.position, visionRange, playerMask);
+        canHitPlayer = Physics.CheckSphere(self.position, hitRange, playerMask);
+
+        if (!canSeePlayer && !canHitPlayer) Patrol();
+        else if (canSeePlayer && !canHitPlayer) Chase();
+        else if (canSeePlayer && canHitPlayer) Attack();
+    }
+
+    private void Patrol()
+    {
+        if (!hasPatrolTarget) PickNewPatrolPoint();
+
+        if (hasPatrolTarget)
+            agent.SetDestination(patrolTarget);
+
+        if (Vector3.Distance(self.position, patrolTarget) < 1f)
+            hasPatrolTarget = false;
+    }
+
+    private void PickNewPatrolPoint()
+    {
+        float randX = Random.Range(-patrolRadius, patrolRadius);
+        float randZ = Random.Range(-patrolRadius, patrolRadius);
+        Vector3 point = new Vector3(self.position.x + randX, self.position.y, self.position.z + randZ);
+
+        if (Physics.Raycast(point, -Vector3.up, 2f, groundMask))
+        {
+            patrolTarget = point;
+            hasPatrolTarget = true;
+        }
+    }
+
+    private void Chase()
+    {
+        agent.SetDestination(player.position);
+    }
+
+    private void Attack()
+    {
+        self.LookAt(player);
+
+        if (!hasAttacked)
+        {
+            hasAttacked = true;
+
+            var healthController = player.GetComponent<playerHealthController>();
+            if (healthController != null && healthController.player.isAlive)
+            {
+                agent.enabled = false;
+                rigidbody.isKinematic = false;
+                rigidbody.AddForce(-self.forward * recoilForce, ForceMode.Impulse);
+
+                healthController.player.takeDamage();
+                healthController.player.playerDeath();
+            }
+
+            onAttackReset?.Invoke();
+        }
+    }
+
+    public void ResetAttack()
+    {
+        agent.Warp(self.position);
+        hasAttacked = false;
+        rigidbody.linearVelocity = Vector3.zero;
+        agent.enabled = true;
+        rigidbody.isKinematic = true;
+    }
+
+    public IEnumerator Die()
+    {
+        Object.Destroy(agent);
+        yield return new WaitForSeconds(0.7f);
+        Object.Destroy(self.gameObject);
+    }
 }

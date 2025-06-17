@@ -1,59 +1,37 @@
+using System.Data.Common;
+using UnityEditor.Rendering;
 using UnityEngine;
 
 public class playerHealthController : MonoBehaviour
 {
-    public AiControllerScript Ai;
-    public camScript camScript;
+    public PlayerHealth player { get; private set; } = new PlayerHealth(3, true); // creates an instance of the class as a monobehavior (I know this looks stupid but its the easiest way to reference an instance of a class in multiple different files)
 
-    [System.Serializable]
-    public class PlayerHealth
+}
+
+[System.Serializable]
+public class PlayerHealth
+{
+    public float health;
+    public bool isAlive;
+
+    public PlayerHealth(float hp, bool alive)
     {
-        public float health;
-        public bool isAlive;
-        public PlayerHealth(float hp, bool alive)
-        {
-            health = hp;
-            isAlive = alive;
-        }
-        public void takeDamage()
-        {
-            health = health - 1f;
-            if (health == 0)
-                playerDeath();
-        }
+        health = hp;
+        isAlive = alive;
+    }
 
-        public void playerDeath()
+    public void takeDamage()
+    {
+        health -= 1f;
+    }
+
+    public void playerDeath()
+    {
+        if (health <= 0)
         {
             isAlive = false;
+            Debug.Log("Player Died");
+            Time.timeScale = 0f;
         }
-    }
-    public PlayerHealth player = new PlayerHealth(3, true);
-    void Start()
-    {
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        if (Ai.enemyInstance.damage == true)
-        {
-            player.takeDamage();
-            Ai.enemyInstance.damage = false;
-        }
-        HandleDeath();
-    }
-
-    private void HandleDeath()
-    {
-        Rigidbody rb = GetComponent<Rigidbody>();
-        if (player.isAlive == false)
-            if (rb != null)
-            {
-                rb.constraints = RigidbodyConstraints.FreezeAll;
-                camScript.enabled = false;
-                Debug.Log("Player Died");
-            }
-            
     }
 }

@@ -182,13 +182,16 @@ MonoBehaviour:
   rawDashForce: 1.1
   dashDuration: 0.8
   dashCooldown: 0.2
-  explodivePrefab: {fileID: 2352152613960781420, guid: 9da4710fd0c37064cb0a934facde77f8, type: 3}
-  throwForce: 14
+  explosivePrefab: {fileID: 2352152613960781420, guid: 9da4710fd0c37064cb0a934facde77f8, type: 3}
+  throwForce: 11
+  cantThrow: 0
   throwPosition: {fileID: 3483637379042480261}
   throwDirection: {x: 0, y: 1, z: 0}
   throwInput: 0
   explosiveEntity: 0
   explosionInput: 0
+  numberOfExplosives: 0
+  maximumNumberOfExplosives: 0
   pause: 0
 --- !u!114 &7411136000838605345
 MonoBehaviour:
@@ -203,6 +206,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Data: {fileID: 4993019959846692787}
+  playerHealth: {fileID: 0}
   playerBody: {fileID: 1566852304857013722}
   cameraTransform: {fileID: 0}
 --- !u!114 &4878511170263703342
@@ -217,6 +221,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2a5602d30ca620f4bb93454628667d28, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Ai: {fileID: 2030399148533143110, guid: 980108f4185c7c04ba1591d12444fa0b, type: 3}
+  camScript: {fileID: 0}
+  player:
+    health: 3
+    isAlive: 1
 --- !u!1 &6586564262079855853
 GameObject:
   m_ObjectHideFlags: 0

@@ -4,8 +4,9 @@ using UnityEngine;
 
 public class playerControllerScript : MonoBehaviour
 {
+    public playerHealthController PlayerHealth;
     public playerData Data;
-    [SerializeField] private Rigidbody playerBody;
+    [SerializeField] private Rigidbody playerBody; 
     [SerializeField] private Transform cameraTransform;
     void Start()
     {
@@ -226,7 +227,7 @@ public class playerControllerScript : MonoBehaviour
         float verticalArc = Data.throwDirection.y;
         Vector3 arcDirection = new Vector3(gameObject.transform.forward.x, verticalArc, gameObject.transform.forward.z).normalized;
 
-        explosiveRb.AddForce(arcDirection * Data.throwForce + playerBody.linearVelocity, ForceMode.VelocityChange); // Applies arc force (for height and base distance)
+        explosiveRb.AddForce(arcDirection * Data.throwForce + playerBody.linearVelocity / 3, ForceMode.VelocityChange); // Applies arc force (for height and base distance)
 
         
         Vector3 flatForward = new Vector3(gameObject.transform.forward.x, 0f, gameObject.transform.forward.z).normalized;
@@ -246,7 +247,8 @@ public class playerControllerScript : MonoBehaviour
     private void Unpause()
     {
         //Debug.Log("game unpaused"); //game is 'unpaused'
-        Time.timeScale = 1f;
+        if (PlayerHealth.player.isAlive)
+            Time.timeScale = 1f;
     }
 }
 

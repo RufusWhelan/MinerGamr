@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class explosive : MonoBehaviour
 {
-    public playerData Data;
+    public playerData Data { get; set; }
     private bool explodable;
     [SerializeField] private float rawExplosionForce;
     private float explosionForce;
@@ -50,6 +50,7 @@ public class explosive : MonoBehaviour
     }
     private void Explode()
     {
+        Data.cantThrow = false;
         Collider[] colliders = Physics.OverlapSphere(transform.position, explosionRadius);
         foreach (Collider nearbyObject in colliders)
         {
