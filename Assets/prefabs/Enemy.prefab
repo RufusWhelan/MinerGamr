@@ -102,6 +102,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 080dc2acdec33e244ac82a659cd44da9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  melee: 0
   navAgent: {fileID: -7498945386910791008}
   playerTarget: {fileID: 1616552201216785208, guid: 66adb5cbeeebecf4397babeb2f4a1870, type: 3}
   aiBody: {fileID: 3018274081140942190}
@@ -113,9 +114,11 @@ MonoBehaviour:
     m_Bits: 64
   patrolRange: 10
   attackCooldown: 1
-  viewRange: 15
-  meleeRange: 0.7
+  viewRange: 21
+  attackRange: 0
   knockbackForce: 10
+  bullet: {fileID: 1045754306914865883, guid: 1a85cf5be79639d44861968c24efb2a5, type: 3}
+  bulletForce: 0
 --- !u!195 &-7498945386910791008
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -145,7 +148,7 @@ SphereCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8953487977010363971}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: 7aaea9161bcf0a748a445042e2b512f3, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0

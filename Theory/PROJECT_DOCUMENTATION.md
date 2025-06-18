@@ -5,7 +5,7 @@
 ### __Functional Requirements__
 * User can move their character around in 3 dimensional space.
 * User can move the camera around the character.
-* User can throw an explosive that can be detonated to explode objects, enemies or to propel the character into the air
+* User can throw an explosive that can be detonated to explode objects, enemies or to propel the character into the air.
 * User can dash forwards on ground or in the air, giving the player a sudden burst of speed.
 * system can simulate basic enemies that can attack the player and that the player can destroy.
 * User can die if their hp reaches zero.
@@ -20,6 +20,7 @@
 * User should have access to an instruction panel that describes how to play the game.
 * System should automatically save, occasionally to prevent loss of save data in the event of a crash.
 * User should be able to adjust mouse sensitivity and volume.
+* Game should incorporate assets to allow the player to feel immersed in the world of the game and to improve the clarity of gameplay.
 
 ## Determining Specifications
 ### __Functional Requirements__
@@ -1137,10 +1138,10 @@ public class UIController : MonoBehaviour
 }
 ```
 
-## End of Review Questions
-__1)__ In its current state, the game meets some of the functional and non functional requirements established in the requirements definition. Majority of the mechanics desired for the final project have been introduced including the dash and explosive mechanics (plus the features from sprint 1). Elements in UI still lack functionality and will likely not be fixed till sprint 4 due to the actual gameplay being more important than UI. Saving and Loading still hasnt been implemented as no levels exist. In its current state, the program does not meet the projects functional and non functional requirements but does have improved functionality compared to the last sprint
+## End of Sprint Review Questions
+__1)__ In its current state, the game meets some of the functional and non functional requirements established in the requirements definition. Majority of the mechanics desired for the final project have been introduced including the dash and explosive mechanics (plus the features from sprint 1). Elements in UI still lack functionality and will likely not be fixed till sprint 4 due to the actual gameplay being more important than UI. Saving and Loading still hasnt been implemented as no levels exist. In its current state, the program does not meet the projects functional and non functional requirements but does have improved functionality compared to the last sprint.
 
-__2)__ Compared to the use cases, the program performs relatively successfully as 6 of the 7 usecases in the main flow are now functional. However, the program still underperforms in the alternate flow usecases. Inputs are correctly detected and processed for all of the users core abilities. The functionality of inputs is still so so in the menus, as multiple elements don't detect or process user inputs correctly. This will likely be remedied in sprint 3. Overall, the current program handles inputs and outputs with improved success compared to sprint 1 but still requires further development, especially in the menus.
+__2)__ Compared to the use cases, the program performs relatively successfully as 6 of the 7 usecases in the main flow are now functional and inputs are correctly detected and processed for all of the users core abilities. However, the program still underperforms in the alternate flow usecases. The functionality of inputs is still so so in the menus, as multiple elements don't detect or process user inputs correctly. This will likely be remedied in sprint 3. Overall, the current program handles inputs and outputs with improved success compared to sprint 1 but still requires further development, especially in the menus.
 
 __3)__ The quality of my code is satifactory, as it named consistently, lackcommented and is relatively organised. Code has been seperated into different files depending on what they are used for (player movement, camera movement, AiController, explosive and UI) with names that make sense for what they do and the amount of actual code in the main functions (update and fixed update) has been reduced through the use of functions that breakdown the code into more readble and reusable chunks. The new additions in this sprint (the explosive and AiController scripts) lack thorough comments due to being unfinished or not finalised. These will be added next sprint once the entirety of the AIController Script and its classes are built out. For the time being, the codes quality in terms of readability, structure and maintainability is adequite but requires improvements which will be made next sprint.
 
@@ -1150,4 +1151,15 @@ good https://learn.unity.com/tutorial/classes-5#
 https://excalidraw.com/#json=sGoA7cJHpgVhOvltEKy-E,7eMEukGvekvqzNzFpdYcEA = use case
 https://excalidraw.com/#json=zN0EMZ1auaCvxsbXqY2aB,f3NGzKGralf9N8rrP236RQ = story board
 https://excalidraw.com/#json=4zMQT8zD0B1HZ4KdXO0hY,6Qrx24upHSLiRYAaXKf17g = level 1 data flow diagram
-https://excalidraw.com/#json=w2wetovOaj9oAc9bN4qzF,wXfp6WzOCY-ZiYJQzDhTRw
+https://excalidraw.com/#json=It77Z2lMEcaz3L6I0fdrN,WfCtmLXwjxi2DjCIzlN3wQ
+
+## __Sprint 3__
+
+## End of Spriny Review Questions
+__1)__ In it's current state, the project reaches most of its functional requirements and some of its non functional requirements. All mechanics have been implemented and improved upon compared to prior sprints, which has created fun and engaging gameplay. Additionally, 2 AI variants have been introduced which have melee and ranged attacks that can deal damage to the player, as mentioned in the functional requirements. The multiple variants of AI exceeds the original expectations of AI in the game and is thus very functional. As in prior Sprints, the UI still lacks a lot of functionality and likely will not get full functionality as the game never reached a scope at which saving and loading progress would make sense as a feature. overall the program meets the functional requirements of the project with relative success, but is lack luster in terms of non functional requirements.
+
+__2)__ As with last sprint,  the program performs relatively successfully in terms of usecases as 6 of the 7 identified usecases in the main flow are now functional and are improved in terms of useability and fluidity compared to sprint 2. Inputs are correctly detected and processed for all of the users core abilities and now yield satifying outputs and fluid movement which makes for an engaging user experience. However, the program still underperforms in the alternate flow usecases as the menus still lack several functionalities and don't create outputs for the corresponding inputs (many of them are placeholders). Overall, the program handles inputs and outputs in the mainflow with great success, but is lackluster in terms of processing inputs in menus.
+
+__3)__ By implementing classes, the quality of my code has drastically improved as it is more readable, well structured and maintained. The AI and player Health scripts were written using classes, taking advantage of inheritance to reduce repeating code and to allow more complex functionality in terms of attacks from AI without drastically increasing the size of the program. The classes keep things clear and concise, and the use of encapsulation protects date. Furthermore, with this sprint thorough commenting and Docstrings were added which improves how easy to understand my program is as a whole. Therefore, the codes quality in terms of readability, structure and maintainability is high.
+
+__4)__ In the next stage of development, the overall looks of the game will be improved by implementing textures and models for the character and the surrroundings. UI may be improved if time permits, but the priority is building out a fully playable level that uses the systems and mechanics that have been built in the prior 3 sprints, along with the implementation of assets to take the project from its current state to a final product that has provides the player with some level of enjoyment with high functionality in the main flow. Once this has been accomplished, UI will be improved in terms of functionality buit will still likely lack some features on hand in.

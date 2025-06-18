@@ -462,33 +462,11 @@ MonoBehaviour:
   m_LightCookieSize: {x: 1, y: 1}
   m_LightCookieOffset: {x: 0, y: 0}
   m_SoftShadowQuality: 1
---- !u!114 &638484199 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 4878511170263703342, guid: 66adb5cbeeebecf4397babeb2f4a1870, type: 3}
-  m_PrefabInstance: {fileID: 4186407224170625421}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2a5602d30ca620f4bb93454628667d28, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!4 &771861679 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3268114903397118711, guid: bba1b05b00a7ba543adeff80ba68e692, type: 3}
   m_PrefabInstance: {fileID: 6809900210053871178}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &771861680 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 8688457643705335620, guid: bba1b05b00a7ba543adeff80ba68e692, type: 3}
-  m_PrefabInstance: {fileID: 6809900210053871178}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1ee1c3cfdc877bc4e9107122c482b43c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &832575517
 GameObject:
   m_ObjectHideFlags: 0
@@ -758,26 +736,26 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4878511170263703342, guid: 66adb5cbeeebecf4397babeb2f4a1870, type: 3}
-      propertyPath: health
-      value: 3
+    - target: {fileID: 4993019959846692787, guid: 66adb5cbeeebecf4397babeb2f4a1870, type: 3}
+      propertyPath: topSpeed
+      value: 16
       objectReference: {fileID: 0}
-    - target: {fileID: 4878511170263703342, guid: 66adb5cbeeebecf4397babeb2f4a1870, type: 3}
-      propertyPath: camScript
-      value: 
-      objectReference: {fileID: 771861680}
+    - target: {fileID: 4993019959846692787, guid: 66adb5cbeeebecf4397babeb2f4a1870, type: 3}
+      propertyPath: accelAmount
+      value: 4.375
+      objectReference: {fileID: 0}
+    - target: {fileID: 4993019959846692787, guid: 66adb5cbeeebecf4397babeb2f4a1870, type: 3}
+      propertyPath: deccelAmount
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 5425823004080566921, guid: 66adb5cbeeebecf4397babeb2f4a1870, type: 3}
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
-    - target: {fileID: 7411136000838605345, guid: 66adb5cbeeebecf4397babeb2f4a1870, type: 3}
-      propertyPath: PlayerHealth
+    - target: {fileID: 7033443828901709848, guid: 66adb5cbeeebecf4397babeb2f4a1870, type: 3}
+      propertyPath: m_Material
       value: 
-      objectReference: {fileID: 638484199}
-    - target: {fileID: 7411136000838605345, guid: 66adb5cbeeebecf4397babeb2f4a1870, type: 3}
-      propertyPath: playerHealth
-      value: 
-      objectReference: {fileID: 4878511170263703342, guid: 66adb5cbeeebecf4397babeb2f4a1870, type: 3}
+      objectReference: {fileID: 13400000, guid: 7aaea9161bcf0a748a445042e2b512f3, type: 2}
     - target: {fileID: 7411136000838605345, guid: 66adb5cbeeebecf4397babeb2f4a1870, type: 3}
       propertyPath: cameraTransform
       value: 
@@ -795,6 +773,22 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2030399148533143110, guid: 980108f4185c7c04ba1591d12444fa0b, type: 3}
+      propertyPath: melee
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2030399148533143110, guid: 980108f4185c7c04ba1591d12444fa0b, type: 3}
+      propertyPath: meleeRange
+      value: 18
+      objectReference: {fileID: 0}
+    - target: {fileID: 2030399148533143110, guid: 980108f4185c7c04ba1591d12444fa0b, type: 3}
+      propertyPath: attackRange
+      value: 17
+      objectReference: {fileID: 0}
+    - target: {fileID: 2030399148533143110, guid: 980108f4185c7c04ba1591d12444fa0b, type: 3}
+      propertyPath: bulletForce
+      value: 60
+      objectReference: {fileID: 0}
     - target: {fileID: 2030399148533143110, guid: 980108f4185c7c04ba1591d12444fa0b, type: 3}
       propertyPath: damageRange
       value: 0.8
