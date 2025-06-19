@@ -61,7 +61,11 @@ public class explosive : MonoBehaviour
     private void Explode()
     {
         /*
-        If the explosive collides with
+        If the explosive collides with a collider, checks what kind of collider it is and if it is a player or enemy send it away from the explosive. If its an enemy, kill it
+
+        'Returns':
+            Vector3: updated playerposition
+            enemy death
         */
         Data.cantThrow = false;
         Collider[] colliders = Physics.OverlapSphere(transform.position, explosionRadius); //search through nearby colliders
@@ -92,6 +96,12 @@ public class explosive : MonoBehaviour
 
     private void playerExplode()
     {
+        /* 
+        If the explosive collides with a collider, checks what kind of collider it is and if it is a player send them forwards on an angle. If its an enemy, destroy it.
+        'Returns':
+            Vector3: updated playerposition
+            enemy death
+        */
         Data.cantThrow = false; // allow throwing again since explosion happened
         Rigidbody myRb = GetComponent<Rigidbody>();
         if (myRb != null)

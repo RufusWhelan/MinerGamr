@@ -1,5 +1,5 @@
 using UnityEngine;
-
+using UnityEngine.SceneManagement;
 public class playerHealthController : MonoBehaviour
 {
     public PlayerHealth player { get; private set; } = new PlayerHealth(3, true); // creates a player health instance that can be shared and accessed easily
@@ -39,8 +39,10 @@ public class PlayerHealth
         if (health <= 0)
         {
             isAlive = false; // mark player as dead
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
             Debug.Log("Player Died");
-            Time.timeScale = 0f; // freeze game on death
+            SceneManager.LoadScene(3);
         }
     }
 }

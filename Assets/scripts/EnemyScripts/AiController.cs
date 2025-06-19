@@ -90,6 +90,12 @@ public class Ai
 
     public void Tick()
     {
+        /*
+        Swtches between the AI's states and checks if it can see anything everyframe
+
+        'Returns'
+        AI state
+        */
         if (agent == null || !agent.isOnNavMesh || !agent.enabled)
             return; //if the pathfinder for the enemy does not exist or is diabled, return.
 
@@ -105,7 +111,14 @@ public class Ai
 
     private void Patrol()
     {
-        if (!hasPatrolTarget) PickNewPatrolPoint(); //if no patrol point, patrol
+        /*
+        moves the AI between two points
+
+        Returns:
+            Vector3: enemy position
+
+        */
+        if (!hasPatrolTarget) PickNewPatrolPoint(); //if no patrol points, make some
 
         if (hasPatrolTarget)
             agent.SetDestination(patrolTarget); //if a patrol point exists, the agent patrols
@@ -116,6 +129,12 @@ public class Ai
 
     private void PickNewPatrolPoint()
     {
+        /*
+        creates a new patrol path for the AI to travel on
+
+        'Returns':
+            Vector3: point that the AI will patrol
+        */
         float randX = Random.Range(-patrolRadius, patrolRadius);
         float randZ = Random.Range(-patrolRadius, patrolRadius);
         Vector3 point = new Vector3(self.position.x + randX, self.position.y, self.position.z + randZ);
@@ -129,12 +148,32 @@ public class Ai
     }
 
     private void Chase()
+    /*
+    AI moves towards player position
+
+    Returns:
+            Vector3: enemy position
+    */
     {
         agent.SetDestination(player.position); // move towards player
     }
 
-    protected virtual void Attack() {} // overriden by subclasses
-    public virtual void ResetAttack() {} // overriden by subclasses
+    protected virtual void Attack()
+    {
+        /* 
+        AI attacks
+        Returns:
+            float: players health
+        */
+    } // overriden by subclasses
+    public virtual void ResetAttack()
+    {
+        /* 
+        Resets AI attacks
+        Returns:
+            bool: if the player has attacked
+        */
+    } // overriden by subclasses
 
     public IEnumerator Die()
     {
@@ -182,7 +221,6 @@ public class MeleeEnemy : Ai
         hasAttacked = false;
         rigidbody.linearVelocity = Vector3.zero; // cancel momentum
         agent.enabled = true;
-        rigidbody.isKinematic = true; // allow navmesh again
     }
 }
 
@@ -199,6 +237,11 @@ public class RangedEnemy : Ai
 
     protected override void Attack()
     {
+        /*
+        AI attacks
+        Returns:
+            gameObject: projectile that is being fired at the player
+        */
         agent.SetDestination(agent.transform.position); // stop moving during attack
         self.LookAt(player); // face player
 
@@ -208,7 +251,7 @@ public class RangedEnemy : Ai
 
             Vector3 spawnPos = self.position + self.forward * 1f;
             Vector3 direction = (player.position - spawnPos).normalized;
-            direction += Vector3.up * 0.05f; // add slight upward arc
+            direction += Vector3.up * 0.25f; // add slight upward arc
             direction.Normalize();
 
             GameObject newBullet = GameObject.Instantiate(projectile, spawnPos, Quaternion.LookRotation(direction));
