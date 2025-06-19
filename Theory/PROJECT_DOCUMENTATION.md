@@ -2196,9 +2196,6 @@ __2)__ Overall, the final product is very successful in terms of functional requ
 
 __3)__ In terms of project management, this Assessment Task was quite poor. Due to TAS to TAS, I was already a week behind where my project should have been according to my gantt chart by the time I finished Sprint 1 and the scale of this Unity project was larger than I expected (anytime I would finish something and prepare to move on I would realise that another feature was necessary). This drastically increased the amount of time necessary to complete each sprint and led to much longer chunks of development towards the end of the project.
 
-
-
- 
 __4)__
 __Ario evaluation__
 
